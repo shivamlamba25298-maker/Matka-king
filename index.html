@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Result Chart</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>🎯 Today & Yesterday Results</h1>
+    <p id="datetime"></p>
+  </header>
+
+  <main>
+    <section class="chart">
+      <table id="resultTable">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Day</th>
+            <th>Result</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Dynamic rows added by script.js -->
+        </tbody>
+      </table>
+    </section>
+
+    <section class="upload">
+      <h2>📤 Add New Result</h2>
+      <form id="resultForm">
+        <label>Date:</label>
+        <input type="date" id="resultDate" required />
+        <label>Result:</label>
+        <input type="text" id="resultValue" placeholder="Enter result" required />
+        <button type="submit">Save Result</button>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 Result Website</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
