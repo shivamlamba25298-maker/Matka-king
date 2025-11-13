@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Results Panel — Demo</title>
+  <!-- Tailwind CDN for quick styling -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 min-h-screen p-6">
+  <div class="max-w-4xl mx-auto">
+    <header class="mb-6">
+      <h1 class="text-2xl font-semibold">Website Results Panel</h1>
+      <p class="text-sm text-slate-600">Yahan se aap results add, edit, delete aur publish kar sakte ho.</p>
+    </header>
+
+    <main class="grid gap-6 md:grid-cols-2">
+      <!-- Form -->
+      <section class="bg-white p-4 rounded-lg shadow">
+        <h2 class="font-medium mb-3">Naya Result Add Karein</h2>
+        <form id="resultForm" class="space-y-3">
+          <div>
+            <label class="text-sm">Game Name</label>
+            <input id="gameName" required class="w-full mt-1 p-2 border rounded" placeholder="e.g. Delhi Bazar" />
+          </div>
+          <div>
+            <label class="text-sm">Result (numbers/text)</label>
+            <input id="resultValue" required class="w-full mt-1 p-2 border rounded" placeholder="e.g. 123" />
+          </div>
+          <div>
+            <label class="text-sm">Date & Time</label>
+            <input id="resultDate" type="datetime-local" class="w-full mt-1 p-2 border rounded" />
+          </div>
+          <div class="flex items-center gap-3">
+            <label class="inline-flex items-center">
+              <input id="isPublished" type="checkbox" class="mr-2" />
+              <span class="text-sm">Publish</span>
+            </label>
+            <button type="submit" class="ml-auto bg-blue-600 text-white px-4 py-2 rounded">Save</button>
+          </div>
+        </form>
+
+        <div class="mt-4 text-sm text-slate-500">
+          <strong>Tip:</strong> Agar server backend hai to localStorage lines (script ke andar) replace karke AJAX/Fetch call laga do.
+        </div>
+      </section>
+
+      <!-- List -->
+      <section class="bg-white p-4 rounded-lg shadow">
+        <div class="flex items-center justify-between mb-3">
+          <h2 class="font-medium">Saved Results</h2>
+          <div class="flex gap-2">
+            <button id="exportCsv" class="text-sm px-3 py-1 border rounded">Export CSV</button>
+            <button id="clearAll" class="text-sm px-3 py-1 border rounded text-red-600">Clear All</button>
+          </div>
+        </div>
+
+        <div id="resultsList" class="space-y-2 max-h-96 overflow-auto">
+          <!-- dynamic -->
+        </div>
+      </section>
+    </main>
+
+    <!-- Preview / Quick view area -->
+    <section class="mt-6 bg-white p-4 rounded-lg shadow">
+      <h3 class="font-medium mb-2">Preview (Published Results)</h3>
+      <div id="publishedPreview" class="grid gap-2 md:grid-cols-3">
+        <!-- published cards -->
+      </div>
+    </section>
+  </div>
+
+  <script>
+    // Simple client-side results manager using localStorage
+    const STORAGE_KEY = 'site_results_v1';
+
+    function loadResults() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        return raw ? JSON.parse(raw) : [];
+      } catch(e) {
+        console.error(e);
+        return [];
+      }
+    }
+
+    function saveResults(arr) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
+      renderList();
+      renderPreview();
+    }
+
+    // Helper to format datetime nicely
+    function formatDateTime(iso) {
+      if(!iso) return '';
+      const d = new Date(iso);
+      return d.toLocaleString();
+    }
+
+    // Render saved results
+    function renderList() {
+      const container = document.getElementById('resultsList');
+      container.innerHTML = '';
+      const results = loadResults().sort((a,b)=> new Date(b.date) - new Date(a.date));
+      if(results.length === 0){
+        container.innerHTML = '<div class="text-slate-500 text-sm">Koi result nahi mila.</div>';
+        return;
+      }
+      results.forEach(item => {
+        const el = document.createElement('div');
+        el.className = 'p-3 border rounded flex items-start gap-3';
+        el.innerHTML = `
+          <div class="flex-1">
+            <div class="flex items-center justify-between">
+              <div>
+                <div class="font-semibold">${escapeHtml(item.game)}</div>
+                <div class="text-sm text-slate-500">${formatDateTime(item.date)}</div>
+              </div>
+              <div class="text-right">
+                <div class="text-lg font-medium">${escapeHtml(item.result)}</div>
+                <div class="text-xs ${item.published ? 'text-green-600' : 'text-slate-500'}">${item.published ? 'Published' : 'Unpublished'}</div>
+              </div>
+            </div>
+            <div class="mt-2 text-sm flex gap-2">
+              <button data-id="${item.id}" class="editBtn px-2 py-1 text-sm border rounded">Edit</button>
+              <button data-id="${item.id}" class="deleteBtn px-2 py-1 text-sm border rounded text-red-600">Delete</button>
+              <button data-id="${item.id}" class="togglePubBtn px-2 py-1 text-sm border rounded">${item.published ? 'Unpublish' : 'Publish'}</button>
+            </div>
+          </div>
+        `;
+        container.appendChild(el);
+      });
+
+      // attach handlers
+      document.querySelectorAll('.deleteBtn').forEach(b=>{
+        b.onclick = () => {
+          const id = b.dataset.id;
+          if(!confirm('Delete this result?')) return;
+          const arr = loadResults().filter(r=>r.id !== id);
+          saveResults(arr);
+        };
+      });
+
+      document.querySelectorAll('.editBtn').forEach(b=>{
+        b.onclick = () => {
+          const id = b.dataset.id;
+          const arr = loadResults();
+          const item = arr.find(r=>r.id===id);
+          if(!item) return;
+          document.getElementById('gameName').value = item.game;
+          document.getElementById('resultValue').value = item.result;
+          document.getElementById('resultDate').value = item.date ? new Date(item.date).toISOString().slice(0,16) : '';
+          document.getElementById('isPublished').checked = !!item.published;
+          // store editing id on form
+          document.getElementById('resultForm').dataset.editId = id;
+          window.scrollTo({top:0, behavior:'smooth'});
+        };
+      });
+
+      document.querySelectorAll('.togglePubBtn').forEach(b=>{
+        b.onclick = () => {
+          const id = b.dataset.id;
+          const arr = loadResults();
+          const idx = arr.findIndex(r=>r.id===id);
+          if(idx===-1) return;
+          arr[idx].published = !arr[idx].published;
+          saveResults(arr);
+        };
+      });
+    }
+
+    // Preview published cards
+    function renderPreview() {
+      const container = document.getElementById('publishedPreview');
+      container.innerHTML = '';
+      const published = loadResults().filter(r=>r.published).sort((a,b)=> new Date(b.date) - new Date(a.date));
+      if(published.length === 0) {
+        container.innerHTML = '<div class="text-slate-500">Koi published result nahi hai.</div>';
+        return;
+      }
+      published.forEach(item=>{
+        const card = document.createElement('div');
+        card.className = 'p-3 border rounded';
+        card.innerHTML = `
+          <div class="font-semibold">${escapeHtml(item.game)}</div>
+          <div class="mt-2 text-2xl font-bold">${escapeHtml(item.result)}</div>
+          <div class="mt-2 text-sm text-slate-500">${formatDateTime(item.date)}</div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // safe escape
+    function escapeHtml(s) {
+      if(!s) return '';
+      return s.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;');
+    }
+
+    // Init
+    document.addEventListener('DOMContentLoaded', ()=>{
+      renderList();
+      renderPreview();
+
+      const form = document.getElementById('resultForm');
+      form.addEventListener('submit', e=>{
+        e.preventDefault();
+        const game = document.getElementById('gameName').value.trim();
+        const result = document.getElementById('resultValue').value.trim();
+        const dateVal = document.getElementById('resultDate').value;
+        const published = document.getElementById('isPublished').checked;
+
+        if(!game || !result) {
+          alert('Game name aur result dono chahiye.');
+          return;
+        }
+
+        const arr = loadResults();
+        const editId = form.dataset.editId;
+        if(editId) {
+          // edit existing
+          const idx = arr.findIndex(r=>r.id===editId);
+          if(idx !== -1) {
+            arr[idx].game = game;
+            arr[idx].result = result;
+            arr[idx].date = dateVal ? new Date(dateVal).toISOString() : new Date().toISOString();
+            arr[idx].published = published;
+          }
+          delete form.dataset.editId;
+        } else {
+          // new
+          arr.push({
+            id: 'r_' + Date.now() + '_' + Math.random().toString(36).slice(2,7),
+            game, result,
+            date: dateVal ? new Date(dateVal).toISOString() : new Date().toISOString(),
+            published: !!published
+          });
+        }
+        // clear fields
+        form.reset();
+        saveResults(arr);
+      });
+
+      document.getElementById('exportCsv').onclick = () => {
+        const arr = loadResults();
+        if(arr.length === 0){ alert('Nothing to export'); return;}
+        const header = ['id','game','result','date','published'];
+        const rows = arr.map(r => [r.id, `"${r.game.replace(/"/g,'""')}"`, `"${r.result.replace(/"/g,'""')}"`, r.date, r.published ? '1' : '0']);
+        const csv = [header.join(','), ...rows.map(r=>r.join(','))].join('\\n');
+        const blob = new Blob([csv], {type: 'text/csv;charset=utf-8;'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'results_export.csv';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+      };
+
+      document.getElementById('clearAll').onclick = () => {
+        if(!confirm('Clear all saved results?')) return;
+        localStorage.removeItem(STORAGE_KEY);
+        renderList();
+        renderPreview();
+      };
+    });
+  </script>
+</body>
+</html>
