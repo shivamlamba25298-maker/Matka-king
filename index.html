@@ -1,47 +1,101 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="hi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Result Chart</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Matka King — Result Dashboard</title>
+
+  <!-- Google font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header>
-    <h1>🎯 Today & Yesterday Results</h1>
-    <p id="datetime"></p>
+  <header class="site-header">
+    <div class="header-left">
+      <h1>Matka King</h1>
+      <p class="tagline">Professional Result Dashboard</p>
+    </div>
+    <div class="header-right">
+      <div id="datetime" class="datetime">—</div>
+      <button id="openLogin" class="btn small">Admin Login</button>
+    </div>
   </header>
 
-  <main>
-    <section class="chart">
-      <table id="resultTable">
+  <main class="container">
+    <!-- LOGIN / AUTH -->
+    <div id="loginModal" class="modal hidden">
+      <div class="modal-card">
+        <h3>🔒 Admin Login</h3>
+        <input id="adminPass" type="password" placeholder="Enter admin password" />
+        <div class="modal-actions">
+          <button id="loginBtn" class="btn">Login</button>
+          <button id="closeLogin" class="btn ghost">Cancel</button>
+        </div>
+        <p id="loginMsg" class="msg"></p>
+      </div>
+    </div>
+
+    <!-- ADMIN PANEL -->
+    <section id="adminPanel" class="card hidden">
+      <div class="panel-head">
+        <h2>Admin Panel</h2>
+        <button id="logoutBtn" class="btn small danger">Logout</button>
+      </div>
+
+      <form id="resultForm" class="form-inline">
+        <div class="form-group">
+          <label for="resultDate">Date</label>
+          <input id="resultDate" type="date" required />
+        </div>
+        <div class="form-group">
+          <label for="resultValue">Result</label>
+          <input id="resultValue" type="text" placeholder="Enter result (e.g., 12-34-56)" required />
+        </div>
+        <div class="form-group actions">
+          <button type="submit" class="btn">Save / Update</button>
+          <button id="clearAll" type="button" class="btn ghost">Clear All</button>
+        </div>
+      </form>
+
+      <p class="help">Tip: Same date पर नया result डालो तो पुराना update हो जाएगा.</p>
+    </section>
+
+    <!-- TODAY & TOMORROW TABLE -->
+    <section class="card">
+      <h3>Today & Tomorrow Results</h3>
+      <table id="todayTable" class="result-table">
         <thead>
-          <tr>
-            <th>Date</th>
-            <th>Day</th>
-            <th>Result</th>
-          </tr>
+          <tr><th>Date</th><th>Day</th><th>Result</th></tr>
         </thead>
-        <tbody>
-          <!-- Dynamic rows added by script.js -->
-        </tbody>
+        <tbody></tbody>
       </table>
     </section>
 
-    <section class="upload">
-      <h2>📤 Add New Result</h2>
-      <form id="resultForm">
-        <label>Date:</label>
-        <input type="date" id="resultDate" required />
-        <label>Result:</label>
-        <input type="text" id="resultValue" placeholder="Enter result" required />
-        <button type="submit">Save Result</button>
-      </form>
+    <!-- MONTHLY CHART -->
+    <section class="card">
+      <h3>Last 30 Days — Monthly Chart</h3>
+      <canvas id="monthlyChart" height="120"></canvas>
+      <div class="legend-note">Bar shows saved result value (numeric part). Non-numeric results are ignored in chart.</div>
+    </section>
+
+    <!-- FULL TABLE (optional view of last 30 days) -->
+    <section class="card">
+      <h3>Last 30 Days — All Results</h3>
+      <table id="monthTable" class="result-table">
+        <thead>
+          <tr><th>Date</th><th>Day</th><th>Result</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
     </section>
   </main>
 
-  <footer>
-    <p>© 2025 Result Website</p>
+  <footer class="site-footer">
+    <small>© <span id="year"></span> Matka King — Built with ❤️</small>
   </footer>
 
   <script src="script.js"></script>
