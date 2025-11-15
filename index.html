@@ -1,206 +1,533 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Satta King Template</title>
-
-<style>
-  :root{
-    --blue:#0b66ff;
-    --yellow:#ffd700;
-  }
-  body{
-    margin:0;
-    font-family:Arial, sans-serif;
-    background:linear-gradient(135deg,var(--blue),var(--yellow));
-    padding-bottom:50px;
-  }
-
-  .header{
-    text-align:center;
-    padding:20px;
-    color:white;
-    font-size:28px;
-    font-weight:bold;
-  }
-  .sub{
-    text-align:center;
-    margin-top:-10px;
-    color:white;
-    font-size:20px;
-    font-weight:bold;
-  }
-  .tagline{
-    text-align:center;
-    color:white;
-    margin-top:8px;
-    font-weight:bold;
-    line-height:22px;
-  }
-
-  /* GAME CARD */
-  .game-box{
-    width:92%;
-    margin:12px auto;
-    background:white;
-    padding:15px;
-    border-radius:15px;
-    box-shadow:0 4px 10px rgba(0,0,0,0.15);
-  }
-  .row1{
-    display:flex;
-    justify-content:space-between;
-    font-size:20px;
-    font-weight:700;
-    color:#005eff;
-  }
-  .row2{
-    display:flex;
-    justify-content:space-between;
-    margin-top:10px;
-    font-size:17px;
-    font-weight:bold;
-  }
-  .btn{
-    margin-top:10px;
-    background:#005eff;
-    color:white;
-    border:none;
-    padding:8px 18px;
-    border-radius:12px;
-    font-weight:bold;
-    cursor:pointer;
-  }
-
-  /* CHART BOX */
-  .chart{
-    margin-top:12px;
-    background:#fff;
-    padding:10px;
-    border-radius:12px;
-    display:none;
-    box-shadow:0 4px 12px rgba(0,0,0,0.20);
-  }
-
-  table{
-    width:100%;
-    border-collapse:collapse;
-    font-size:15px;
-  }
-  th{
-    background:#eaf2ff;
-    padding:8px;
-    color:#005eff;
-    font-weight:800;
-  }
-  td{
-    padding:7px;
-    border-bottom:1px solid #e3e3e3;
-    text-align:center;
-  }
-</style>
-
-<script>
-function openChart(id){
-  let box = document.getElementById(id);
-
-  // toggle open/close
-  if(box.style.display === "none"){
-    box.style.display = "block";
-  } else {
-    box.style.display = "none";
-  }
-}
-</script>
-
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Satta-style Results — Template</title>
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root{
+      --bg:#0f1724; --card:#0b1220; --accent:#0ea5e9; --muted:#9aa6b2;
+      --glass: rgba(255,255,255,0.04);
+    }
+    *{box-sizing:border-box;font-family:Inter, system-ui, sans-serif}
+    body{margin:0;background:linear-gradient(180deg,var(--bg),#071025);color:#e6eef6}
+    .container{max-width:1100px;margin:24px auto;padding:18px}
+    header{display:flex;flex-direction:column;gap:6px;align-items:flex-start}
+    .mast{font-size:28px;font-weight:700;color:var(--accent)}
+    .sub{font-size:14px;color:var(--muted)}
+    .banner{display:flex;gap:12px;align-items:center;margin-top:8px}
+    .pill{background:var(--glass);padding:8px 12px;border-radius:10px}
+    .layout{display:grid;grid-template-columns:360px 1fr;gap:16px;margin-top:18px}
+    /* left column */
+    .left .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);padding:12px;border-radius:12px;margin-bottom:12px}
+    .calendar{display:flex;flex-direction:column;gap:8px}
+    .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+    .cal-day{padding:8px;border-radius:6px;text-align:center;background:#071826;cursor:pointer}
+    .cal-day.today{border:2px solid var(--accent)}
+    .cal-day.sel{background:var(--accent);color:#071022}
+    /* games list */
+    .games .game{display:flex;justify-content:space-between;align-items:center;padding:10px;border-radius:8px;background:#081524;margin-bottom:8px;cursor:pointer}
+    .game .title{display:flex;flex-direction:column}
+    .game .title .eng{font-weight:600}
+    .game .title .hi{font-size:12px;color:var(--muted)}
+    .result-pill{display:flex;gap:6px;align-items:center}
+    .result{background:#06121a;padding:6px 8px;border-radius:6px;min-width:38px;text-align:center;font-weight:700}
+    .result.two{background:rgba(255,255,255,0.03)}
+    .current{box-shadow:0 0 0 3px rgba(14,165,233,0.08);border-left:4px solid var(--accent)}
+    /* right column */
+    .right .topcards{display:flex;gap:12px;margin-bottom:12px}
+    .card{background:var(--card);padding:12px;border-radius:12px}
+    .big{font-size:20px;font-weight:700}
+    .small{color:var(--muted);font-size:13px}
+    /* modal/chart */
+    .modal{position:fixed;inset:0;background:rgba(2,6,23,0.6);display:flex;align-items:center;justify-content:center;z-index:50;visibility:hidden;opacity:0;transition:all .15s}
+    .modal.show{visibility:visible;opacity:1}
+    .modal .box{background:#041427;padding:18px;border-radius:12px;width:90%;max-width:760px}
+    .btn{background:var(--accent);color:#041022;padding:8px 12px;border-radius:8px;cursor:pointer;border:none}
+    .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)}
+    .lang-toggle{display:flex;gap:6px}
+    .admin-ind{padding:6px 10px;border-radius:8px;background:rgba(255,255,255,0.02);font-size:13px}
+    footer{margin-top:18px;color:var(--muted);font-size:13px}
+    @media(max-width:900px){.layout{grid-template-columns:1fr;}.left{order:2}}
+  </style>
 </head>
 <body>
+  <div class="container">
+    <header>
+      <div class="mast">Jai shree shyam 🙏</div>
+      <div class="banner">
+        <div class="pill big">3 baan dhari</div>
+        <div style="flex:1"></div>
+        <div class="lang-toggle">
+          <button id="langEn" class="btn ghost">English</button>
+          <button id="langHi" class="btn">हिन्दी</button>
+        </div>
+        <div style="width:12px"></div>
+        <div id="adminBtn" class="btn">Admin Login</div>
+      </div>
+      <div class="sub">Template — games, calendar, monthly chart. (Change data locally)</div>
+    </header>
 
-<div class="header">🙏 Jai Shree Shyam 🙏</div>
-<div class="sub">3 बाण धारी</div>
-<div class="tagline">
-  Sabse Tej • Sabse Fast <br>
-  Raja Satta King • Super Fast Result <br>
-  24x7 Available
-</div>
+    <div class="layout">
+      <div class="left">
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div><strong id="selectedDateLabel">Selected: </strong><span id="selDate">--</span></div>
+            <div class="small">Today: <span id="todayDate"></span></div>
+          </div>
+        </div>
 
-<!-- GAME 1 -->
-<div class="game-box">
-  <div class="row1">
-    <span>Desawar / देसावर</span>
-    <span>04:00 AM</span>
+        <div class="card">
+          <div class="calendar">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <strong id="monthLabel">Month</strong>
+              <div>
+                <button id="prevMonth" class="btn ghost">◀</button>
+                <button id="nextMonth" class="btn ghost">▶</button>
+              </div>
+            </div>
+            <div class="cal-grid" id="calendarGrid"></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+            <strong class="small">Games (click for chart)</strong>
+            <div class="small">Results show: Today / Yesterday</div>
+          </div>
+          <div class="games" id="gamesList">
+            <!-- games inserted by JS -->
+          </div>
+        </div>
+      </div>
+
+      <div class="right">
+        <div class="topcards">
+          <div class="card" style="flex:1">
+            <div class="small">Highlighted Game</div>
+            <div id="highlightGame" class="big">--</div>
+            <div style="margin-top:8px">
+              <span class="small">Result</span>
+              <div style="display:flex;gap:8px;margin-top:6px">
+                <div class="result" id="highlightRes1">--</div>
+                <div class="result two" id="highlightRes2">--</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card" style="width:260px">
+            <div class="small">Monthly Chart</div>
+            <div style="margin-top:10px">
+              <button id="openMonthly" class="btn">Open Monthly Chart</button>
+            </div>
+            <div style="margin-top:10px">
+              <button id="downloadCSV" class="btn ghost">Download CSV</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="small">Recent Results (Today & Yesterday)</div>
+          <div id="recentTable" style="margin-top:10px"></div>
+        </div>
+      </div>
+    </div>
+
+    <footer>Template created for you — edit values in the embedded `data` object inside the script to update.</footer>
   </div>
 
-  <div class="row2">
-    <span>Open: <span style="color:red;">54</span></span>
-    <span>Close: <span style="color:red;">89</span></span>
+  <!-- Modal for chart -->
+  <div id="modal" class="modal" role="dialog" aria-hidden="true">
+    <div class="box">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <strong id="chartTitle">Monthly Chart</strong>
+        <div>
+          <button id="closeModal" class="btn ghost">Close</button>
+        </div>
+      </div>
+      <div style="margin-top:12px">
+        <canvas id="monthlyChart" height="220"></canvas>
+      </div>
+    </div>
   </div>
 
-  <button class="btn" onclick="openChart('chart1')">CHART</button>
+  <script>
+    // -------------------------
+    // Sample data (edit here)
+    // -------------------------
+    // Each game: id, name_en, name_hi, times (for ordering), results: object keyed by date 'YYYY-MM-DD' => [res1,res2]
+    const data = {
+      games: [
+        {id:'mumbai', name_en:'Mumbai', name_hi:'मुंबई', time:'12:30', results:{}},
+        {id:'delhi', name_en:'Delhi', name_hi:'दिल्ली', time:'13:00', results:{}},
+        {id:'raj', name_en:'Rajdhani', name_hi:'राजधानी', time:'14:15', results:{}},
+        {id:'gali', name_en:'Gali', name_hi:'गली', time:'15:30', results:{}},
+        {id:'farid', name_en:'Faridabad', name_hi:'फरीदाबाद', time:'11:00', results:{}},
+        {id:'kalyan', name_en:'Kalyan', name_hi:'कल्याण', time:'17:30', results:{}},
+        {id:'main', name_en:'Main Bazar', name_hi:'मेन बाजार', time:'16:00', results:{}},
+        {id:'jaipur', name_en:'Jaipur', name_hi:'जयपुर', time:'12:10', results:{}},
+        {id:'nagpur', name_en:'Nagpur', name_hi:'नागपुर', time:'19:00', results:{}},
+        {id:'patna', name_en:'Patna', name_hi:'पटना', time:'18:20', results:{}},
+        {id:'agra', name_en:'Agra', name_hi:'आगरा', time:'10:30', results:{}},
+        {id:'kanpur', name_en:'Kanpur', name_hi:'कानपुर', time:'09:30', results:{}},
+        {id:'lucknow', name_en:'Lucknow', name_hi:'लखनऊ', time:'08:45', results:{}},
+        {id:'varanasi', name_en:'Varanasi', name_hi:'वाराणसी', time:'21:00', results:{}},
+        {id:'indore', name_en:'Indore', name_hi:'इन्दौर', time:'20:15', results:{}},
+        {id:'bengaluru', name_en:'Bengaluru', name_hi:'बेंगलुरु', time:'22:00', results:{}},
+        {id:'pune', name_en:'Pune', name_hi:'पुणे', time:'07:50', results:{}},
+        {id:'surat', name_en:'Surat', name_hi:'सूरत', time:'06:40', results:{}},
+        {id:'kolkata', name_en:'Kolkata', name_hi:'कोलकाता', time:'05:30', results:{}},
+        {id:'chennai', name_en:'Chennai', name_hi:'चेन्नई', time:'04:20', results:{}}
+      ],
+      // monthly numbers for each game (sample numbers: array of 1-31 entries for the month)
+      monthly: {
+        // example: 'mumbai': [12,45,23,...]  // one value per day of month (1-indexed)
+      }
+    };
 
-  <div class="chart" id="chart1">
-    <table>
-      <tr><th>Date</th><th>Result</th></tr>
-      <tr><td>01</td><td>54</td></tr>
-      <tr><td>02</td><td>37</td></tr>
-      <tr><td>03</td><td>89</td></tr>
-      <tr><td>04</td><td>29</td></tr>
-    </table>
-  </div>
-</div>
+    // Fill sample recent results for last 5 days for demo (random-ish)
+    (function populateSample(){
+      const days = 31;
+      const today = new Date();
+      for(const g of data.games){
+        g.results = {};
+        const arr = [];
+        for(let d=1; d<=days; d++){
+          const date = new Date(today.getFullYear(), today.getMonth(), d);
+          const key = date.toISOString().slice(0,10);
+          // sample result as two numbers (0-99)
+          const r1 = ('0'+(Math.floor(Math.random()*100))).slice(-2);
+          const r2 = ('0'+(Math.floor(Math.random()*100))).slice(-2);
+          g.results[key] = [r1, r2];
+          arr.push(Math.floor(Math.random()*90)+10);
+        }
+        data.monthly[g.id] = arr;
+      }
+    })();
 
-<!-- GAME 2 -->
-<div class="game-box">
-  <div class="row1">
-    <span>Faridabad / फ़रीदाबाद</span>
-    <span>06:00 PM</span>
-  </div>
+    // -------------------------
+    // Utilities
+    // -------------------------
+    function formatDate(d){
+      return d.toISOString().slice(0,10);
+    }
+    function prettyDate(d){
+      return d.toLocaleDateString('en-GB');
+    }
 
-  <div class="row2">
-    <span>Open: <span style="color:red;">25</span></span>
-    <span>Close: <span style="color:red;">80</span></span>
-  </div>
+    // -------------------------
+    // State
+    // -------------------------
+    const state = {
+      lang:'hi', // 'hi' or 'en'
+      selectedDate: new Date(),
+      currentGameId: null,
+      admin: false
+    };
 
-  <button class="btn" onclick="openChart('chart2')">CHART</button>
+    // -------------------------
+    // Init UI
+    // -------------------------
+    const today = new Date();
+    document.getElementById('todayDate').textContent = prettyDate(today);
 
-  <div class="chart" id="chart2">
-    <table>
-      <tr><th>Date</th><th>Result</th></tr>
-      <tr><td>01</td><td>25</td></tr>
-      <tr><td>02</td><td>18</td></tr>
-      <tr><td>03</td><td>80</td></tr>
-      <tr><td>04</td><td>74</td></tr>
-    </table>
-  </div>
-</div>
+    // calendar render
+    let calYear = today.getFullYear(), calMonth = today.getMonth();
+    const calendarGrid = document.getElementById('calendarGrid');
+    const monthLabel = document.getElementById('monthLabel');
+    const selDate = document.getElementById('selDate');
+    function renderCalendar(){
+      calendarGrid.innerHTML = '';
+      const first = new Date(calYear, calMonth, 1);
+      const startDay = first.getDay(); // 0 sun ... 6 sat
+      const daysInMonth = new Date(calYear, calMonth+1, 0).getDate();
+      monthLabel.textContent = first.toLocaleString('default',{month:'long',year:'numeric'});
+      // blank cells for startDay (we'll use Sunday-start)
+      for(let i=0;i<startDay;i++){
+        const el = document.createElement('div');
+        el.className = 'cal-day';
+        el.style.visibility='hidden';
+        calendarGrid.appendChild(el);
+      }
+      for(let d=1; d<=daysInMonth; d++){
+        const date = new Date(calYear, calMonth, d);
+        const el = document.createElement('div');
+        el.className = 'cal-day';
+        const key = formatDate(date);
+        el.textContent = d;
+        if(formatDate(date) === formatDate(new Date())) el.classList.add('today');
+        el.addEventListener('click',()=>{
+          state.selectedDate = date;
+          updateSelectedDate();
+          highlightSelectedDay(key);
+        });
+        calendarGrid.appendChild(el);
+      }
+      highlightSelectedDay(formatDate(state.selectedDate));
+    }
+    function highlightSelectedDay(selKey){
+      Array.from(calendarGrid.children).forEach(ch=>{
+        ch.classList.remove('sel');
+        if(ch.style.visibility==='hidden') return;
+        // compute date by finding displayed day number and month/year
+        const day = parseInt(ch.textContent||'0');
+        if(!day) return;
+        const key = formatDate(new Date(calYear,calMonth,day));
+        if(key === selKey) ch.classList.add('sel');
+      });
+    }
+    renderCalendar();
+    document.getElementById('prevMonth').addEventListener('click',()=>{
+      calMonth--; if(calMonth<0){calMonth=11;calYear--;}
+      renderCalendar();
+    });
+    document.getElementById('nextMonth').addEventListener('click',()=>{
+      calMonth++; if(calMonth>11){calMonth=0;calYear++;}
+      renderCalendar();
+    });
 
-<!-- GAME 3 -->
-<div class="game-box">
-  <div class="row1">
-    <span>Ghaziabad / गाज़ियाबाद</span>
-    <span>08:00 PM</span>
-  </div>
+    function updateSelectedDate(){
+      selDate.textContent = prettyDate(state.selectedDate);
+      renderGames(); renderRecent();
+    }
+    state.selectedDate = today;
+    updateSelectedDate();
 
-  <div class="row2">
-    <span>Open: <span style="color:red;">40</span></span>
-    <span>Close: <span style="color:red;">75</span></span>
-  </div>
+    // -------------------------
+    // Games list render
+    // -------------------------
+    const gamesList = document.getElementById('gamesList');
+    function renderGames(){
+      gamesList.innerHTML='';
+      // sort by time so current game can be highlighted
+      const sorted = data.games.slice().sort((a,b)=>{
+        return a.time.localeCompare(b.time);
+      });
+      // find "current game" by matching closest upcoming time today (simple)
+      const now = new Date();
+      const nowHM = now.getHours()*60 + now.getMinutes();
+      let current = sorted[0];
+      for(const g of sorted){
+        const [hh,mm]=g.time.split(':').map(x=>parseInt(x));
+        const mins = hh*60 + mm;
+        if(mins <= nowHM) current = g;
+      }
+      state.currentGameId = current.id;
 
-  <button class="btn" onclick="openChart('chart3')">CHART</button>
+      for(const g of sorted){
+        const el = document.createElement('div');
+        el.className = 'game';
+        if(g.id === state.currentGameId) el.classList.add('current');
+        const left = document.createElement('div');
+        left.className='title';
+        const eng = document.createElement('div'); eng.className='eng'; eng.textContent = (state.lang==='hi'? g.name_hi : g.name_en);
+        const hi = document.createElement('div'); hi.className='hi'; hi.textContent = `${g.time}  •  ${g.name_en}`;
+        left.appendChild(eng); left.appendChild(hi);
+        const right = document.createElement('div'); right.className='result-pill';
+        // show today's and yesterday's results (if exist)
+        const keyToday = formatDate(state.selectedDate);
+        const yesterday = new Date(state.selectedDate); yesterday.setDate(yesterday.getDate()-1);
+        const keyYest = formatDate(yesterday);
+        const resToday = g.results[keyToday] || ['--','--'];
+        const resYest = g.results[keyYest] || ['--','--'];
+        const r1 = document.createElement('div'); r1.className='result'; r1.textContent = resToday[0];
+        const r2 = document.createElement('div'); r2.className='result two'; r2.textContent = resToday[1];
+        const smallWrap = document.createElement('div'); smallWrap.style.display='flex'; smallWrap.style.flexDirection='column'; smallWrap.style.alignItems='flex-end';
+        const label = document.createElement('div'); label.className='small'; label.textContent = 'Today';
+        smallWrap.appendChild(r1); smallWrap.appendChild(r2); smallWrap.appendChild(label);
+        right.appendChild(smallWrap);
 
-  <div class="chart" id="chart3">
-    <table>
-      <tr><th>Date</th><th>Result</th></tr>
-      <tr><td>01</td><td>40</td></tr>
-      <tr><td>02</td><td>69</td></tr>
-      <tr><td>03</td><td>35</td></tr>
-      <tr><td>04</td><td>20</td></tr>
-    </table>
-  </div>
-</div>
+        el.appendChild(left);
+        el.appendChild(right);
+        // click opens monthly chart for that game
+        el.addEventListener('click',()=>openChartFor(g.id));
+        gamesList.appendChild(el);
+      }
+      // also update highlight panel
+      const hg = data.games.find(x=>x.id === state.currentGameId);
+      document.getElementById('highlightGame').textContent = (state.lang==='hi'? hg.name_hi : hg.name_en) + ' • ' + hg.time;
+      const keyToday = formatDate(state.selectedDate);
+      const ky = (hg.results[keyToday] || ['--','--']);
+      document.getElementById('highlightRes1').textContent = ky[0];
+      document.getElementById('highlightRes2').textContent = ky[1];
+    }
+    renderGames();
 
-<!-- Add more games same way -->
+    // -------------------------
+    // Recent results table
+    // -------------------------
+    function renderRecent(){
+      const wrap = document.getElementById('recentTable');
+      wrap.innerHTML='';
+      const table = document.createElement('table');
+      table.style.width='100%';
+      table.style.borderCollapse='collapse';
+      const header = document.createElement('tr');
+      ['Game','Time','Today','Yesterday'].forEach(h=>{
+        const th = document.createElement('th');
+        th.style.textAlign='left';
+        th.style.padding='6px';
+        th.style.fontSize='13px';
+        th.style.color='var(--muted)';
+        th.textContent = h;
+        header.appendChild(th);
+      });
+      table.appendChild(header);
+      for(const g of data.games.slice(0,20)){
+        const tr = document.createElement('tr');
+        const td1 = document.createElement('td'); td1.style.padding='6px'; td1.textContent = (state.lang==='hi'? g.name_hi : g.name_en);
+        const td2 = document.createElement('td'); td2.style.padding='6px'; td2.textContent = g.time;
+        const keyToday = formatDate(state.selectedDate);
+        const y = new Date(state.selectedDate); y.setDate(y.getDate()-1);
+        const keyY = formatDate(y);
+        const td3 = document.createElement('td'); td3.style.padding='6px'; td3.textContent = (g.results[keyToday]||['--','--']).join(' / ');
+        const td4 = document.createElement('td'); td4.style.padding='6px'; td4.textContent = (g.results[keyY]||['--','--']).join(' / ');
+        tr.appendChild(td1); tr.appendChild(td2); tr.appendChild(td3); tr.appendChild(td4);
+        table.appendChild(tr);
+      }
+      wrap.appendChild(table);
+    }
+    renderRecent();
 
+    // -------------------------
+    // Chart modal
+    // -------------------------
+    const modal = document.getElementById('modal');
+    const closeModal = document.getElementById('closeModal');
+    closeModal.addEventListener('click',()=>{ modal.classList.remove('show'); if(window.myChart) window.myChart.destroy(); });
+    modal.addEventListener('click',(e)=>{ if(e.target===modal){ modal.classList.remove('show'); if(window.myChart) window.myChart.destroy(); }});
+
+    function openChartFor(gameId){
+      const g = data.games.find(x=>x.id===gameId);
+      document.getElementById('chartTitle').textContent = (state.lang==='hi'? g.name_hi : g.name_en) + ' — Monthly';
+      modal.classList.add('show');
+
+      // month days for current calendar month
+      const y = calYear, m = calMonth;
+      const dim = new Date(y,m+1,0).getDate();
+      const labels = [];
+      for(let d=1; d<=dim; d++) labels.push(String(d));
+      const dataset = (data.monthly[gameId] || []).slice(0,dim);
+      const ctx = document.getElementById('monthlyChart').getContext('2d');
+      if(window.myChart) window.myChart.destroy();
+      window.myChart = new Chart(ctx, {
+        type:'line',
+        data:{ labels, datasets:[{ label: (state.lang==='hi'? g.name_hi : g.name_en), data: dataset, fill:true, tension:0.25 }]},
+        options:{
+          responsive:true,
+          scales:{ y:{ beginAtZero:true } }
+        }
+      });
+    }
+
+    document.getElementById('openMonthly').addEventListener('click',()=>{
+      // open monthly chart for current highlighted game
+      openChartFor(state.currentGameId);
+    });
+
+    // download CSV (monthly for current game)
+    document.getElementById('downloadCSV').addEventListener('click',()=>{
+      const gid = state.currentGameId;
+      const g = data.games.find(x=>x.id===gid);
+      const dim = new Date(calYear,calMonth+1,0).getDate();
+      let csv = 'day,' + (state.lang==='hi'? g.name_hi : g.name_en) + '\\n';
+      for(let d=1; d<=dim; d++){
+        csv += `${d},${(data.monthly[gid] && data.monthly[gid][d-1])||''}\\n`;
+      }
+      const blob = new Blob([csv],{type:'text/csv'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = `${gid}_monthly.csv`;
+      a.click();
+    });
+
+    // -------------------------
+    // Language toggle
+    // -------------------------
+    document.getElementById('langEn').addEventListener('click',()=>{
+      state.lang='en';
+      document.getElementById('langEn').classList.remove('ghost'); document.getElementById('langHi').classList.add('ghost');
+      renderGames(); renderRecent();
+    });
+    document.getElementById('langHi').addEventListener('click',()=>{
+      state.lang='hi';
+      document.getElementById('langHi').classList.remove('ghost'); document.getElementById('langEn').classList.add('ghost');
+      renderGames(); renderRecent();
+    });
+
+    // -------------------------
+    // Admin login (local)
+    // -------------------------
+    document.getElementById('adminBtn').addEventListener('click',()=>{
+      if(!state.admin){
+        const pw = prompt('Enter admin password (default: admin123)'); // simple local protection
+        if(pw === 'admin123'){
+          state.admin = true;
+          document.getElementById('adminBtn').textContent = 'Admin: ON';
+          enableAdminUI();
+        } else {
+          alert('Wrong password');
+        }
+      } else {
+        state.admin = false;
+        document.getElementById('adminBtn').textContent = 'Admin Login';
+        disableAdminUI();
+      }
+    });
+
+    function enableAdminUI(){
+      document.querySelectorAll('.game').forEach((el,idx)=>{
+        // add edit small button
+      });
+      // Add a quick editor area
+      if(document.getElementById('adminPanel')) return;
+      const p = document.createElement('div'); p.id='adminPanel';
+      p.className='card';
+      p.style.marginTop='12px';
+      p.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center"><strong>Admin Panel</strong><span class="small">Local edits only (no server)</span></div><div style="margin-top:8px"><label>Pick Game: <select id="adminGameSel"></select></label><div style="height:8px"></div><label>Pick Date: <input type="date" id="adminDate" /></label><div style="height:8px"></div><label>Result 1: <input id="adminR1" /></label><label style="margin-left:8px">Result 2: <input id="adminR2" /></label><div style="height:8px"></div><button id="saveAdmin" class="btn">Save Result</button><button id="clearAdmin" class="btn ghost">Clear</button></div>';
+      document.querySelector('.left').appendChild(p);
+      // populate select
+      const sel = document.getElementById('adminGameSel');
+      sel.innerHTML = '';
+      for(const g of data.games) {
+        const o = document.createElement('option'); o.value=g.id; o.textContent = g.name_en + ' / ' + g.name_hi;
+        sel.appendChild(o);
+      }
+      document.getElementById('adminDate').value = formatDate(state.selectedDate);
+      document.getElementById('saveAdmin').addEventListener('click',()=>{
+        const gid = sel.value;
+        const date = document.getElementById('adminDate').value;
+        const r1 = document.getElementById('adminR1').value || '--';
+        const r2 = document.getElementById('adminR2').value || '--';
+        const g = data.games.find(x=>x.id===gid);
+        if(!g.results) g.results = {};
+        g.results[date] = [r1, r2];
+        alert('Saved locally for ' + date);
+        renderGames(); renderRecent();
+      });
+      document.getElementById('clearAdmin').addEventListener('click',()=>{
+        document.getElementById('adminR1').value=''; document.getElementById('adminR2').value='';
+      });
+    }
+    function disableAdminUI(){
+      const p = document.getElementById('adminPanel');
+      if(p) p.remove();
+    }
+
+    // -------------------------
+    // CSV import/export, future hook notes
+    // -------------------------
+    // Note: This template is local-only. If later you want auto-update from remote or DB (Firebase), I can give you code.
+    // For now edit the 'data' object inside this script or use Admin Panel to change daily results.
+
+    // -------------------------
+    // Final small init
+    // -------------------------
+    updateSelectedDate();
+    renderGames();
+
+  </script>
 </body>
 </html>
