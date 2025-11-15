@@ -1,90 +1,112 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Satta King Fast - Modern Template</title><!-- ALL CSS HERE -->
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Satta King</title>
+
 <style>
     body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f5f5f5;
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(to bottom right, #1e90ff, #ffd700);
+        padding-bottom: 40px;
     }
-    header {
-      text-align: center;
-      padding: 20px;
-      background: white;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+
+    .header {
+        text-align: center;
+        padding: 25px 10px 10px;
+        color: #fff;
+        font-weight: bold;
+        font-size: 30px;
     }
-    .title {
-      font-size: 28px;
-      color: #1a73e8;
-      font-weight: 700;
+
+    .sub {
+        text-align: center;
+        color: #fff;
+        font-size: 22px;
+        margin-top: -8px;
+        font-weight: 600;
     }
-    .subtitle {
-      font-size: 20px;
-      margin-top: -10px;
-      color: #333;
+
+    .sub2 {
+        text-align: center;
+        color: #fff;
+        font-size: 18px;
+        margin-top: 4px;
+        line-height: 26px;
+        font-weight: bold;
     }
-    #games {
-      margin: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-    }
+
     .game-card {
-      background: white;
-      padding: 15px;
-      border-radius: 12px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+        background: white;
+        width: 90%;
+        margin: 12px auto;
+        padding: 15px;
+        border-radius: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 20px;
+        color: #005eff;
+        font-weight: bold;
+        box-shadow: 0px 3px 10px rgba(0,0,0,0.15);
     }
-    .game-title {
-      font-size: 18px;
-      font-weight: bold;
-      color: #1a73e8;
+
+    .chart-title {
+        text-align: center;
+        font-size: 24px;
+        margin-top: 30px;
+        font-weight: bold;
+        color: #fff;
+        text-shadow: 1px 1px 3px black;
     }
-    .game-time {
-      font-size: 14px;
-      color: #444;
+
+    .chart-box {
+        width: 92%;
+        margin: 15px auto;
+        background: white;
+        padding: 15px;
+        border-radius: 15px;
+        font-size: 18px;
+        box-shadow: 0px 3px 10px rgba(0,0,0,0.20);
+        min-height: 200px;
     }
 </style>
 
 </head>
 <body>
-    <header>
-        <h1 class="title">🙏 Jai Shree Shyam 🙏</h1>
-        <h2 class="subtitle">3 बाण धारी</h2>
-    </header><section id="games"></section>
 
-<!-- ALL JS HERE -->
-<script>
-    const games = [
-      {name_en: "Gali", name_hi: "गली", time: "11:50 PM"},
-      {name_en: "Desawar", name_hi: "देसावर", time: "04:00 AM"},
-      {name_en: "Faridabad", name_hi: "फरीदाबाद", time: "06:00 PM"},
-      {name_en: "Ghaziabad", name_hi: "ग़ाज़ियाबाद", time: "08:00 PM"}
-    ];
+<div class="header">🙏 Jai Shree Shyam 🙏</div>
+<div class="sub">3 बाण धारी</div>
 
-    // Time Sorting
-    function sortByTime(list){
-      return list.sort((a, b) => new Date('1970/01/01 ' + a.time) - new Date('1970/01/01 ' + b.time));
-    }
+<div class="sub2">
+    Sabse Tej Sabse Fast <br>
+    Raja Satta King <br>
+    Super Fast Result <br>
+    24x7 Available
+</div>
 
-    const sortedGames = sortByTime(games);
-    const container = document.getElementById('games');
+<!-- GAMES LIST -->
+<div class="game-card">Desawar / देसावर <span>04:00 AM</span></div>
+<div class="game-card">Faridabad / फ़रीदाबाद <span>06:00 PM</span></div>
+<div class="game-card">Ghaziabad / ग़ाज़ियाबाद <span>08:00 PM</span></div>
+<div class="game-card">Gali / गली <span>11:50 PM</span></div>
 
-    sortedGames.forEach(game => {
-      const div = document.createElement('div');
-      div.className = 'game-card';
-      div.innerHTML = `
-        <div class="game-title">${game.name_en} / ${game.name_hi}</div>
-        <div class="game-time">${game.time}</div>
-      `;
-      container.appendChild(div);
-    });
-</script>
+<div class="game-card">Delhi Bazar / दिल्ली बाज़ार <span>02:00 PM</span></div>
+<div class="game-card">Delhi Day / दिल्ली डे <span>03:00 PM</span></div>
+<div class="game-card">Shri Ganesh / श्री गणेश <span>05:00 PM</span></div>
+<div class="game-card">Delhi Darbar / दिल्ली दरबार <span>07:00 PM</span></div>
+<div class="game-card">Taj / ताज <span>09:00 PM</span></div>
+<div class="game-card">Chhotu Taj / छोटू ताज <span>10:00 PM</span></div>
+
+<!-- MONTHLY CHART -->
+<div class="chart-title">📅 Monthly Chart</div>
+
+<div class="chart-box">
+    Calendar Style Chart Yahan Show Hoga <br>
+    (Aap bolna bas kis month ka chahiye, main bana dunga)
+</div>
 
 </body>
 </html>
