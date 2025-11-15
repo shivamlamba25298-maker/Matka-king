@@ -2,135 +2,205 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Desawar — Monthly Chart</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Satta King Template</title>
+
 <style>
   :root{
     --blue:#0b66ff;
     --yellow:#ffd700;
-    --card-bg:#ffffff;
-    --muted:#6b7280;
   }
-  html,body{height:100%;margin:0;font-family: "Helvetica Neue", Arial, sans-serif;}
   body{
-    background: linear-gradient(135deg,var(--blue) 0%, #3aa0ff 40%, var(--yellow) 100%);
-    -webkit-font-smoothing:antialiased;
-    color:#0b2540;
-    padding-bottom:60px;
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:linear-gradient(135deg,var(--blue),var(--yellow));
+    padding-bottom:50px;
   }
 
-  .container{max-width:980px;margin:18px auto;padding:0 14px;}
-
-  /* Header */
   .header{
     text-align:center;
-    background: rgba(255,255,255,0.06);
-    padding:22px 14px;
+    padding:20px;
+    color:white;
+    font-size:28px;
+    font-weight:bold;
+  }
+  .sub{
+    text-align:center;
+    margin-top:-10px;
+    color:white;
+    font-size:20px;
+    font-weight:bold;
+  }
+  .tagline{
+    text-align:center;
+    color:white;
+    margin-top:8px;
+    font-weight:bold;
+    line-height:22px;
+  }
+
+  /* GAME CARD */
+  .game-box{
+    width:92%;
+    margin:12px auto;
+    background:white;
+    padding:15px;
+    border-radius:15px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.15);
+  }
+  .row1{
+    display:flex;
+    justify-content:space-between;
+    font-size:20px;
+    font-weight:700;
+    color:#005eff;
+  }
+  .row2{
+    display:flex;
+    justify-content:space-between;
+    margin-top:10px;
+    font-size:17px;
+    font-weight:bold;
+  }
+  .btn{
+    margin-top:10px;
+    background:#005eff;
+    color:white;
+    border:none;
+    padding:8px 18px;
     border-radius:12px;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.12);
-    margin-bottom:14px;
-    color:#fff;
+    font-weight:bold;
+    cursor:pointer;
   }
-  .header h1{margin:0;font-size:28px;letter-spacing:0.2px}
-  .header .sub{margin-top:6px;font-weight:700;font-size:18px}
-  .header .notes{margin-top:8px;color:rgba(255,255,255,0.95);font-weight:600;line-height:1.3}
 
-  /* Games list */
-  .games{margin-top:18px}
-  .game{
-    display:flex;justify-content:space-between;align-items:center;
-    background:var(--card-bg);padding:14px;border-radius:12px;
-    box-shadow:0 6px 18px rgba(11,38,64,0.08);margin:10px 0;color:var(--blue);
-    font-weight:700;font-size:18px;
-  }
-  .game small{display:block;font-weight:600;color:#0b66ff;opacity:0.95}
-  .time{color:#334155;font-weight:700;font-size:15px}
-
-  /* Chart title */
-  .chart-title{margin-top:26px;color:#fff;font-weight:800;text-align:center;font-size:20px;text-shadow:0 2px 6px rgba(0,0,0,0.25)}
-
-  /* Calendar-style table */
-  .chart {
-    margin:14px auto 60px;
-    background:var(--card-bg);
+  /* CHART BOX */
+  .chart{
+    margin-top:12px;
+    background:#fff;
+    padding:10px;
     border-radius:12px;
-    padding:12px;
-    box-shadow:0 6px 20px rgba(0,0,0,0.14);
-    overflow:auto;
-  }
-  table{width:100%;border-collapse:collapse;font-size:14px}
-  th,td{padding:10px 8px;text-align:center;border-bottom:1px solid #eef2f7}
-  thead th{background:rgba(11,102,255,0.06);font-weight:800;color:var(--blue)}
-  tr:first-child td{border-top-left-radius:8px;border-top-right-radius:8px}
-
-  /* Responsive tweaks */
-  @media (max-width:640px){
-    .game{font-size:16px;padding:12px}
-    thead th,td{padding:8px 6px;font-size:13px}
+    display:none;
+    box-shadow:0 4px 12px rgba(0,0,0,0.20);
   }
 
-  /* small footer note */
-  .footer-note{text-align:center;color:rgba(255,255,255,0.9);margin-top:6px;font-weight:600}
+  table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:15px;
+  }
+  th{
+    background:#eaf2ff;
+    padding:8px;
+    color:#005eff;
+    font-weight:800;
+  }
+  td{
+    padding:7px;
+    border-bottom:1px solid #e3e3e3;
+    text-align:center;
+  }
 </style>
+
+<script>
+function openChart(id){
+  let box = document.getElementById(id);
+
+  // toggle open/close
+  if(box.style.display === "none"){
+    box.style.display = "block";
+  } else {
+    box.style.display = "none";
+  }
+}
+</script>
+
 </head>
 <body>
-  <div class="container">
-    <div class="header">
-      <h1>🙏 Jai Shree Shyam 🙏</h1>
-      <div class="sub">3 बाण धारी</div>
-      <div class="notes">
-        Sabse Tej • Sabse Fast • Raja Satta King • Super Fast Result • 24x7 Available
-      </div>
-    </div>
 
-    <!-- Games list (times taken from example page) -->
-    <div class="games">
-      <div class="game"><div>Desawar / देसावर <small>Record Chart</small></div><div class="time">05:00 AM</div></div>
-      <div class="game"><div>Shri Ganesh / श्री गणेश <small>Record Chart</small></div><div class="time">04:30 PM</div></div>
-      <div class="game"><div>Faridabad / फ़रीदाबाद <small>Record Chart</small></div><div class="time">06:00 PM</div></div>
-      <div class="game"><div>Ghaziabad / गाज़ियाबाद <small>Record Chart</small></div><div class="time">09:25 PM</div></div>
-      <div class="game"><div>Gali / गली <small>Record Chart</small></div><div class="time">11:25 PM</div></div>
+<div class="header">🙏 Jai Shree Shyam 🙏</div>
+<div class="sub">3 बाण धारी</div>
+<div class="tagline">
+  Sabse Tej • Sabse Fast <br>
+  Raja Satta King • Super Fast Result <br>
+  24x7 Available
+</div>
 
-      <!-- Additional games you asked to include -->
-      <div class="game"><div>Delhi Bazar / दिल्ली बाज़ार</div><div class="time">02:00 PM</div></div>
-      <div class="game"><div>Delhi Day / दिल्ली डे</div><div class="time">03:00 PM</div></div>
-      <div class="game"><div>Delhi Darbar / दिल्ली दरबार</div><div class="time">08:30 PM</div></div>
-      <div class="game"><div>Taj / ताज</div><div class="time">09:00 PM</div></div>
-      <div class="game"><div>Chhotu Taj / छोटू ताज</div><div class="time">10:00 PM</div></div>
-      <div class="game"><div>Shri Ganesh (mix) / श्री गणेश</div><div class="time">04:30 PM</div></div>
-    </div>
-
-    <div class="chart-title">📅 Desawar Satta Result — Monthly Chart (Sample)</div>
-
-    <div class="chart" role="region" aria-label="Monthly result chart">
-      <!-- Table copied sample data (Nov 1 - Nov 15) from the page -->
-      <table>
-        <thead>
-          <tr>
-            <th>DATE</th><th>DSWR</th><th>SRGN</th><th>FRBD</th><th>GZBD</th><th>GALI</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>01</td><td>54</td><td>26</td><td>89</td><td>40</td><td></td></tr>
-          <tr><td>02</td><td>37</td><td>30</td><td>08</td><td>69</td><td>75</td></tr>
-          <tr><td>03</td><td>89</td><td>30</td><td>28</td><td>35</td><td>07</td></tr>
-          <tr><td>04</td><td>29</td><td>76</td><td>74</td><td>20</td><td>79</td></tr>
-          <tr><td>05</td><td>92</td><td>02</td><td>02</td><td>92</td><td>80</td></tr>
-          <tr><td>06</td><td>68</td><td>73</td><td>60</td><td>06</td><td>73</td></tr>
-          <tr><td>07</td><td>94</td><td>76</td><td>05</td><td>08</td><td>19</td></tr>
-          <tr><td>08</td><td>85</td><td>62</td><td>17</td><td>79</td><td>53</td></tr>
-          <tr><td>09</td><td>08</td><td>75</td><td>41</td><td>04</td><td>32</td></tr>
-          <tr><td>10</td><td>67</td><td>44</td><td>54</td><td>02</td><td>64</td></tr>
-          <tr><td>11</td><td>51</td><td>79</td><td>15</td><td>51</td><td>57</td></tr>
-          <tr><td>12</td><td>37</td><td>70</td><td>44</td><td>37</td><td>05</td></tr>
-          <tr><td>13</td><td>53</td><td>33</td><td>20</td><td>27</td><td>13</td></tr>
-          <tr><td>14</td><td>55</td><td>09</td><td>90</td><td>60</td><td>45</td></tr>
-          <tr><td>15</td><td>20</td><td>76</td><td>23</td><td>XX</td><td>XX</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="footer-note">Updated: November 15, 2025, 19:41:06 IST. (Source page inspected.)</div>
+<!-- GAME 1 -->
+<div class="game-box">
+  <div class="row1">
+    <span>Desawar / देसावर</span>
+    <span>04:00 AM</span>
   </div>
+
+  <div class="row2">
+    <span>Open: <span style="color:red;">54</span></span>
+    <span>Close: <span style="color:red;">89</span></span>
+  </div>
+
+  <button class="btn" onclick="openChart('chart1')">CHART</button>
+
+  <div class="chart" id="chart1">
+    <table>
+      <tr><th>Date</th><th>Result</th></tr>
+      <tr><td>01</td><td>54</td></tr>
+      <tr><td>02</td><td>37</td></tr>
+      <tr><td>03</td><td>89</td></tr>
+      <tr><td>04</td><td>29</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- GAME 2 -->
+<div class="game-box">
+  <div class="row1">
+    <span>Faridabad / फ़रीदाबाद</span>
+    <span>06:00 PM</span>
+  </div>
+
+  <div class="row2">
+    <span>Open: <span style="color:red;">25</span></span>
+    <span>Close: <span style="color:red;">80</span></span>
+  </div>
+
+  <button class="btn" onclick="openChart('chart2')">CHART</button>
+
+  <div class="chart" id="chart2">
+    <table>
+      <tr><th>Date</th><th>Result</th></tr>
+      <tr><td>01</td><td>25</td></tr>
+      <tr><td>02</td><td>18</td></tr>
+      <tr><td>03</td><td>80</td></tr>
+      <tr><td>04</td><td>74</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- GAME 3 -->
+<div class="game-box">
+  <div class="row1">
+    <span>Ghaziabad / गाज़ियाबाद</span>
+    <span>08:00 PM</span>
+  </div>
+
+  <div class="row2">
+    <span>Open: <span style="color:red;">40</span></span>
+    <span>Close: <span style="color:red;">75</span></span>
+  </div>
+
+  <button class="btn" onclick="openChart('chart3')">CHART</button>
+
+  <div class="chart" id="chart3">
+    <table>
+      <tr><th>Date</th><th>Result</th></tr>
+      <tr><td>01</td><td>40</td></tr>
+      <tr><td>02</td><td>69</td></tr>
+      <tr><td>03</td><td>35</td></tr>
+      <tr><td>04</td><td>20</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- Add more games same way -->
+
 </body>
 </html>
