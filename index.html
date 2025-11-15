@@ -1,587 +1,90 @@
 <!DOCTYPE html><html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Satta King Result Template</title>
-  <style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Satta King Fast - Modern Template</title><!-- ALL CSS HERE -->
+<style>
     body {
       margin: 0;
-      background: #f2f6ff;
       font-family: Arial, sans-serif;
+      background: #f5f5f5;
     }
     header {
-      background: #0033cc;
-      color: #fff;
       text-align: center;
-      padding: 25px 10px;
-      font-size: 32px;
-      font-weight: bold;
+      padding: 20px;
+      background: white;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
-    header .sub {
-      font-size: 22px;
-      margin-top: 5px;
+    .title {
+      font-size: 28px;
+      color: #1a73e8;
+      font-weight: 700;
     }
-    .game-list {
-      margin: 20px auto;
-      width: 95%;
-      max-width: 900px;
+    .subtitle {
+      font-size: 20px;
+      margin-top: -10px;
+      color: #333;
+    }
+    #games {
+      margin: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
     }
     .game-card {
-      background: #fff;
+      background: white;
       padding: 15px;
-      margin-bottom: 12px;
       border-radius: 12px;
-      box-shadow: 0 3px 6px rgba(0,0,0,0.15);
-      border-left: 10px solid #0033cc;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
-    .game-name {
-      font-size: 22px;
-      font-weight: bold;
-      color: #0033cc;
-    }
-    .result-box {
-      text-align: right;
-    }
-    .result-title {
-      font-size: 16px;
-      font-weight: bold;
-      margin-bottom: 2px;
-    }
-    .result-number {
-      font-size: 26px;
-      font-weight: bold;
-      color: #000;
-    }
-    .chart-section {
-      margin: 30px auto;
-      width: 95%;
-      max-width: 900px;
-      background: #fff;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 3px 6px rgba(0,0,0,0.15);
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 10px;
-    }
-    table th, table td {
-      border: 1px solid #ccc;
-      padding: 10px;
-      text-align: center;
-    }
-    table th {
-      background: #0033cc;
-      color: #fff;
+    .game-title {
       font-size: 18px;
+      font-weight: bold;
+      color: #1a73e8;
     }
-  </style>
+    .game-time {
+      font-size: 14px;
+      color: #444;
+    }
+</style>
+
 </head>
 <body>
-  <header>
-    Jai Shree Shyam 🙏<br />
-    <span class="sub">3 Baan Dhari</span>
-  </header>  <div class="game-list" id="gameList"></div>  <div class="chart-section">
-    <h2>Monthly Chart (1 to 15)</h2>
-    <table id="chartTable">
-      <tr>
-        <th>Date</th>
-        <th>Result</th>
-      </tr>
-    </table>
-  </div>  <script>
+    <header>
+        <h1 class="title">🙏 Jai Shree Shyam 🙏</h1>
+        <h2 class="subtitle">3 बाण धारी</h2>
+    </header><section id="games"></section>
+
+<!-- ALL JS HERE -->
+<script>
     const games = [
-      { name: "Gali (गली)", time: "11:30 PM", today: "--", yesterday: "--" },
-      { name: "Desawar (देशावर)", time: "05:15 AM", today: "--", yesterday: "--" },
-      { name: "Faridabad (फरीदाबाद)", time: "06:00 PM", today: "--", yesterday: "--" },
-      { name: "Ghaziabad (गाज़ियाबाद)", time: "08:00 PM", today: "--", yesterday: "--" },
-      { name: "Delhi Day (दिल्ली डे)", time: "02:00 PM", today: "--", yesterday: "--" },
-      { name: "Chhotu Taj (छोटू ताज)", time: "03:00 PM", today: "--", yesterday: "--" }
+      {name_en: "Gali", name_hi: "गली", time: "11:50 PM"},
+      {name_en: "Desawar", name_hi: "देसावर", time: "04:00 AM"},
+      {name_en: "Faridabad", name_hi: "फरीदाबाद", time: "06:00 PM"},
+      {name_en: "Ghaziabad", name_hi: "ग़ाज़ियाबाद", time: "08:00 PM"}
     ];
 
-    function sortByTime(list) {
-      return list.sort((a, b) => new Date(`1970/01
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Satta Result — Mobile Template</title>
-  <meta name="description" content="Mobile-first Satta result template (Hindi + English). Add Aaj/ Kal results, month charts, 20+ games, admin edit." />
-  <style>
-    /* --- Mobile-first modern styles --- */
-    :root{
-      --bg:#0f1720;
-      --card:#111316;
-      --muted:#9aa5b1;
-      --accent:#e64a19; /* orange-red */
-      --accent-dark:#c73f12;
-      --panel:#1a1f24;
-      --glass: rgba(255,255,255,0.02);
-      --success: #16a34a;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      background: linear-gradient(180deg,var(--bg) 0%, #061017 100%);
-      color:#e6eef3;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      padding:10px;
-      line-height:1.3;
+    // Time Sorting
+    function sortByTime(list){
+      return list.sort((a, b) => new Date('1970/01/01 ' + a.time) - new Date('1970/01/01 ' + b.time));
     }
 
-    .container{
-      max-width:760px;
-      margin:0 auto;
-    }
+    const sortedGames = sortByTime(games);
+    const container = document.getElementById('games');
 
-    header.appbar{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-      background:linear-gradient(90deg,var(--accent),var(--accent-dark));
-      color:#fff;
-      padding:12px 14px;border-radius:10px;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.4);
-    }
-    .brand{
-      font-weight:700;font-size:18px;
-      letter-spacing:0.2px;
-    }
-    .controls{display:flex;gap:8px;align-items:center}
-    .btn{
-      background:var(--panel); color:#fff; padding:8px 10px; border-radius:8px;
-      font-size:14px; border:1px solid rgba(255,255,255,0.03);
-    }
-    .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06)}
-    .lang{font-size:13px;opacity:0.95}
-
-    main{
-      margin-top:12px;
-    }
-
-    .section-title{
-      display:flex;align-items:center;justify-content:space-between;
-      gap:8px;padding:10px;border-radius:10px;background:var(--glass);border:1px solid rgba(255,255,255,0.02);
-      margin-bottom:8px;
-      font-weight:700;
-    }
-
-    .game-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
-    @media(min-width:540px){ .game-grid{grid-template-columns:1fr 1fr 1fr;} }
-
-    .game-box{
-      background: linear-gradient(180deg,#0f1417,#0b0d0f);
-      border-radius:10px;padding:10px;border:1px solid rgba(255,255,255,0.03);
-      display:flex;flex-direction:column;gap:8px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
-      min-height:86px;
-    }
-    .game-name{font-weight:700;font-size:15px}
-    .game-time{font-size:12px;color:var(--muted)}
-    .chart-link{font-size:13px;text-decoration:none;color:var(--accent);font-weight:600}
-
-    .results-panel{
-      margin-top:10px;background:linear-gradient(180deg,#071014,#081116);
-      border-radius:10px;padding:12px;border:1px solid rgba(255,255,255,0.03);
-    }
-    .result-row{display:flex;align-items:center;justify-content:space-between;padding:8px 6px;border-radius:8px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);margin-bottom:6px}
-    .result-left{display:flex;flex-direction:column}
-    .result-game{font-weight:700}
-    .result-val{font-size:18px;font-weight:800;color:var(--accent)}
-    .result-date{font-size:12px;color:var(--muted)}
-
-    .tabs{display:flex;gap:8px;margin-bottom:8px}
-    .tab{flex:1;padding:8px;text-align:center;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.03);font-weight:700}
-    .tab.active{background:linear-gradient(90deg,var(--accent),var(--accent-dark));color:#fff}
-
-    .footer-note{font-size:12px;color:var(--muted);margin-top:10px;text-align:center}
-
-    /* Admin panel */
-    .admin-panel{margin-top:12px;padding:10px;border-radius:10px;background:linear-gradient(180deg,#081217,#071017);border:1px solid rgba(255,255,255,0.03)}
-    .input, textarea, select{
-      width:100%;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.05);background:transparent;color:#fff;margin-top:6px;
-    }
-    .row{display:flex;gap:8px}
-    .row .col{flex:1}
-    .small{font-size:12px;color:var(--muted)}
-    .danger{background:#2b0b07;color:#fff}
-    .success{background:var(--success);color:#fff}
-
-    /* little helpers */
-    .muted{color:var(--muted);font-size:13px}
-    .hidden{display:none}
-    a{color:inherit}
-  </style>
-</head>
-<body>
-  <div class="container">
-    <header class="appbar" role="banner">
-      <div class="brand" id="brand">SattaKingFast Template</div>
-      <div class="controls">
-        <div class="lang" id="langLabel">EN</div>
-        <button class="btn ghost" id="toggleLang">हिंदी/EN</button>
-        <button class="btn" id="openAdmin">Admin</button>
-      </div>
-    </header>
-
-    <main>
-      <div class="section-title" id="gamesTitle">
-        <div id="gamesHeading">Games • 20+</div>
-        <div class="small" id="adminOnlyNote">Admin-only edit available</div>
-      </div>
-
-      <!-- Games grid -->
-      <div class="game-grid" id="gameGrid">
-        <!-- JS will populate games -->
-      </div>
-
-      <!-- Results Section -->
-      <div class="section-title" style="margin-top:12px;">
-        <div id="resultsHeading">Results</div>
-        <div style="font-size:13px;color:var(--muted)" id="todayDate">Aaj: --</div>
-      </div>
-
-      <div class="tabs">
-        <div class="tab active" data-tab="today" id="tabToday">Aaj</div>
-        <div class="tab" data-tab="yesterday" id="tabYesterday">Kal</div>
-      </div>
-
-      <div class="results-panel" id="resultsPanel">
-        <!-- JS will populate -->
-      </div>
-
-      <div class="footer-note" id="footerNote">
-        Month charts &nbsp; • &nbsp; Hindi + English available &nbsp; • &nbsp; Delhi Day + Chhotu Taj included
-      </div>
-
-      <!-- Admin modal / panel -->
-      <div class="admin-panel hidden" id="adminPanel" aria-hidden="true">
-        <div style="display:flex;justify-content:space-between;align-items:center">
-          <div style="font-weight:700">Admin Panel</div>
-          <div class="small">Only you can edit</div>
-        </div>
-
-        <div id="adminLoginBox" style="margin-top:10px">
-          <div class="small">Enter admin password</div>
-          <input id="adminPass" class="input" type="password" placeholder="Password" />
-          <div style="display:flex;gap:8px;margin-top:8px">
-            <button class="btn" id="adminLoginBtn">Login</button>
-            <button class="btn ghost" id="adminCloseBtn">Close</button>
-          </div>
-          <div class="small muted" style="margin-top:8px">Default password: <strong>change_me_now</strong> — change it in code.</div>
-        </div>
-
-        <div id="adminEditor" class="hidden">
-          <div style="margin-top:10px" class="small">Select game to edit results / add new game</div>
-          <div style="margin-top:6px" class="row">
-            <select id="selectGame" class="input col"></select>
-            <input id="newGameName" class="input col" placeholder="New game name (to add)" />
-          </div>
-          <div style="display:flex;gap:8px;margin-top:8px">
-            <input id="newGameTime" class="input" placeholder="Time (e.g. 3:15)" />
-            <input id="newChartLink" class="input" placeholder="Chart link (URL or path)" />
-          </div>
-
-          <div style="margin-top:8px">
-            <div class="small">Aaj (today) result</div>
-            <input id="todayResult" class="input" placeholder="e.g. 123" />
-            <div class="small" style="margin-top:8px">Kal (yesterday) result</div>
-            <input id="yesterdayResult" class="input" placeholder="e.g. 456" />
-          </div>
-
-          <div style="display:flex;gap:8px;margin-top:10px">
-            <button class="btn success" id="saveResultBtn">Save</button>
-            <button class="btn" id="addGameBtn">Add Game</button>
-            <button class="btn danger" id="clearAllBtn">Clear All (localStorage)</button>
-          </div>
-
-          <div style="margin-top:8px" class="small muted">Tip: This is client-side. For permanent server storage, upload to your hosting or connect to backend.</div>
-        </div>
-      </div>
-
-    </main>
-  </div>
-
-  <script>
-    /**********************
-     * Data & config
-     **********************/
-    // Default games list (20+). You can edit or expand via admin panel.
-    const defaultGames = [
-      { id:'disawar', name_en:'DISAWAR', name_hi:'DISAWAR', time:'5:00', chart:'#chart-disawar' },
-      { id:'gali', name_en:'GALI', name_hi:'GALI', time:'11:45', chart:'#chart-gali' },
-      { id:'ghaziabad', name_en:'GHAZIABAD', name_hi:'GHAZIABAD', time:'10:00', chart:'#chart-ghaziabad' },
-      { id:'faridabad', name_en:'FARIDABAD', name_hi:'FARIDABAD', time:'6:00', chart:'#chart-faridabad' },
-      { id:'shriganesh', name_en:'SHRIGANGANAGAR', name_hi:'SHRIGANSH', time:'4:45', chart:'#chart-shri' },
-      { id:'delhibazar', name_en:'DELHI BAZAR', name_hi:'DELHI BAZAR', time:'3:15', chart:'#chart-delhibazar' },
-      { id:'delhiday', name_en:'DELHI DAY', name_hi:'DELHI DAY', time:'7:45', chart:'#chart-delhiday' },
-      { id:'chhotutaj', name_en:'CHHOTU TAJ', name_hi:'CHHOTU TAJ', time:'3:00', chart:'#chart-chhotu' },
-      { id:'gaziyabad', name_en:'GAZIYABAD', name_hi:'GAZIYABAD', time:'10:00', chart:'#chart-gazi' },
-      { id:'deesawar', name_en:'DEESAWER', name_hi:'DEESAWER', time:'5:00', chart:'#chart-deesawer' },
-      { id:'farid', name_en:'FARID', name_hi:'FARID', time:'6:00', chart:'#chart-farid' },
-      { id:'kalyan', name_en:'KALYAN', name_hi:'KALYAN', time:'9:15', chart:'#chart-kalyan' },
-      { id:'jaipur', name_en:'JAIPUR', name_hi:'JAIPUR', time:'12:30', chart:'#chart-jaipur' },
-      { id:'mumbai', name_en:'MUMBAI', name_hi:'MUMBAI', time:'2:30', chart:'#chart-mumbai' },
-      { id:'hyderabad', name_en:'HYDERABAD', name_hi:'HYDERABAD', time:'8:45', chart:'#chart-hyderabad' },
-      { id:'kolkata', name_en:'KOLKATA', name_hi:'KOLKATA', time:'1:15', chart:'#chart-kolkata' },
-      { id:'punjab', name_en:'PUNJAB', name_hi:'PUNJAB', time:'11:00', chart:'#chart-punjab' },
-      { id:'agra', name_en:'AGRA', name_hi:'AGRA', time:'10:30', chart:'#chart-agra' },
-      { id:'lucknow', name_en:'LUCKNOW', name_hi:'LUCKNOW', time:'4:00', chart:'#chart-lucknow' },
-      { id:'delhi', name_en:'DELHI', name_hi:'DELHI', time:'7:00', chart:'#chart-delhi' },
-      // add more as desired
-    ];
-
-    // default language: 'en' or 'hi'
-    let lang = localStorage.getItem('skf_lang') || 'en';
-
-    // Admin basic config (change password here)
-    const ADMIN_PASS = 'change_me_now'; // <<--- CHANGE THIS BEFORE DEPLOYING
-
-    /**********************
-     * Helper utilities
-     **********************/
-    function el(id){ return document.getElementById(id) }
-    function fmtDate(d){
-      if(!d) return '';
-      return d.toLocaleDateString();
-    }
-    function todayKey(){ return (new Date()).toISOString().slice(0,10) }
-
-    /**********************
-     * Storage functions
-     **********************/
-    function loadGames(){
-      const raw = localStorage.getItem('skf_games');
-      if(raw) try{ return JSON.parse(raw) }catch(e){}
-      localStorage.setItem('skf_games', JSON.stringify(defaultGames));
-      return JSON.parse(localStorage.getItem('skf_games'));
-    }
-    function saveGames(list){
-      localStorage.setItem('skf_games', JSON.stringify(list));
-    }
-
-    function loadResults(){
-      const raw = localStorage.getItem('skf_results');
-      if(raw) try{ return JSON.parse(raw) }catch(e){}
-      const sample = {}; // structure: { 'YYYY-MM-DD': {gameId: '123'} }
-      // sample data for demonstration: today's & yesterday
-      const today = new Date(); const yesterday = new Date(); yesterday.setDate(yesterday.getDate()-1);
-      sample[today.toISOString().slice(0,10)] = {};
-      sample[yesterday.toISOString().slice(0,10)] = {};
-      localStorage.setItem('skf_results', JSON.stringify(sample));
-      return JSON.parse(localStorage.getItem('skf_results'));
-    }
-    function saveResults(results){
-      localStorage.setItem('skf_results', JSON.stringify(results));
-    }
-
-    /**********************
-     * Rendering
-     **********************/
-    function renderGames(){
-      const list = loadGames();
-      const grid = el('gameGrid'); grid.innerHTML = '';
-      const select = el('selectGame'); select.innerHTML = '';
-      list.forEach(g=>{
-        const box = document.createElement('div'); box.className='game-box';
-        const name = document.createElement('div'); name.className='game-name';
-        name.textContent = (lang==='hi'? g.name_hi : g.name_en);
-        const time = document.createElement('div'); time.className='game-time';
-        time.textContent = (g.time? ('Time: '+g.time) : '');
-        const link = document.createElement('a'); link.className='chart-link'; link.href = g.chart||'#'; link.textContent = (lang==='hi' ? 'Chart' : 'Chart');
-        box.appendChild(name); box.appendChild(time); box.appendChild(link);
-        grid.appendChild(box);
-
-        const opt = document.createElement('option'); opt.value=g.id; opt.textContent = (lang==='hi'? g.name_hi : g.name_en);
-        select.appendChild(opt);
-      });
-    }
-
-    function renderResults(forDate){
-      const resultsPanel = el('resultsPanel');
-      const results = loadResults();
-      const games = loadGames();
-      resultsPanel.innerHTML = '';
-      const rowOrder = games; // keep same order
-      // generate a result row per game
-      rowOrder.forEach(g=>{
-        const val = (results[forDate] && results[forDate][g.id]) ? results[forDate][g.id] : '--';
-        const r = document.createElement('div'); r.className='result-row';
-        const left = document.createElement('div'); left.className='result-left';
-        const gn = document.createElement('div'); gn.className='result-game'; gn.textContent = (lang==='hi'? g.name_hi : g.name_en);
-        const gd = document.createElement('div'); gd.className='result-date'; gd.textContent = (g.time? g.time : '');
-        left.appendChild(gn); left.appendChild(gd);
-        const right = document.createElement('div');
-        const gv = document.createElement('div'); gv.className='result-val'; gv.textContent = val;
-        const chart = document.createElement('div'); chart.className='small muted'; chart.innerHTML = `<a class="chart-link" href="${g.chart||'#'}">${(lang==='hi'?'Mahina Chart':'Month Chart')}</a>`;
-        right.appendChild(gv); right.appendChild(chart);
-        r.appendChild(left); r.appendChild(right);
-        resultsPanel.appendChild(r);
-      });
-    }
-
-    /**********************
-     * Tab & date init
-     **********************/
-    function setActiveTab(tabName){
-      el('tabToday').classList.toggle('active', tabName==='today');
-      el('tabYesterday').classList.toggle('active', tabName==='yesterday');
-      const d = new Date();
-      let dateKey;
-      if(tabName==='today'){ dateKey = d.toISOString().slice(0,10); el('todayDate').textContent = (lang==='hi' ? 'Aaj: ' : 'Today: ') + dateKey; }
-      else { const y = new Date(); y.setDate(y.getDate()-1); dateKey = y.toISOString().slice(0,10); el('todayDate').textContent = (lang==='hi' ? 'Kal: ' : 'Yesterday: ') + dateKey; }
-      renderResults(dateKey);
-      sessionStorage.setItem('skf_tab', tabName);
-    }
-
-    /**********************
-     * Admin actions
-     **********************/
-    function openAdmin(){
-      el('adminPanel').classList.remove('hidden'); el('adminPanel').setAttribute('aria-hidden','false');
-    }
-    function closeAdmin(){
-      el('adminPanel').classList.add('hidden'); el('adminPanel').setAttribute('aria-hidden','true');
-    }
-
-    function showAdminEditor(){
-      el('adminLoginBox').classList.add('hidden');
-      el('adminEditor').classList.remove('hidden');
-      // populate select
-      const sel = el('selectGame'); sel.innerHTML='';
-      loadGames().forEach(g=>{
-        const opt = document.createElement('option'); opt.value = g.id; opt.textContent = (lang==='hi'?g.name_hi:g.name_en);
-        sel.appendChild(opt);
-      });
-      // fill current result values for selected date (today by default)
-      const tab = sessionStorage.getItem('skf_tab') || 'today';
-      const dateKey = (tab==='today') ? new Date().toISOString().slice(0,10) : (()=>{const d=new Date();d.setDate(d.getDate()-1);return d.toISOString().slice(0,10)})();
-      const results = loadResults();
-      const selVal = sel.value;
-      el('todayResult').value = (results[dateKey] && results[dateKey][selVal]) ? results[dateKey][selVal] : '';
-      el('yesterdayResult').value = (()=>{const y=new Date();y.setDate(y.getDate()-1); const key=y.toISOString().slice(0,10); return (results[key] && results[key][selVal]) ? results[key][selVal] : ''})();
-
-    }
-
-    /**********************
-     * Event wiring
-     **********************/
-    document.addEventListener('DOMContentLoaded', ()=>{
-      // initial render
-      renderGames();
-      const lastTab = sessionStorage.getItem('skf_tab') || 'today';
-      setActiveTab(lastTab);
-      // language label
-      el('langLabel').textContent = (lang==='hi' ? 'HI' : 'EN');
-
-      // tab clicks
-      el('tabToday').addEventListener('click', ()=> setActiveTab('today'));
-      el('tabYesterday').addEventListener('click', ()=> setActiveTab('yesterday'));
-
-      // language toggle
-      el('toggleLang').addEventListener('click', ()=>{
-        lang = (lang==='en'?'hi':'en');
-        localStorage.setItem('skf_lang', lang);
-        el('langLabel').textContent = (lang==='hi' ? 'HI' : 'EN');
-        // re-render with new language
-        renderGames();
-        const tab = sessionStorage.getItem('skf_tab') || 'today';
-        setActiveTab(tab);
-        // update headings
-        el('gamesHeading').textContent = (lang==='hi'? 'गाम्स • 20+' : 'Games • 20+');
-        el('resultsHeading').textContent = (lang==='hi'? 'रिज़ल्ट्स' : 'Results');
-      });
-
-      // admin open
-      el('openAdmin').addEventListener('click', openAdmin);
-      el('adminCloseBtn').addEventListener('click', closeAdmin);
-
-      // admin login
-      el('adminLoginBtn').addEventListener('click', ()=>{
-        const p = el('adminPass').value;
-        if(p === ADMIN_PASS){
-          showAdminEditor();
-        } else {
-          alert((lang==='hi' ? 'गलत पासवर्ड' : 'Wrong password'));
-        }
-      });
-
-      // selecting game in admin populates fields
-      el('selectGame').addEventListener('change', ()=>{
-        // populate result fields based on selected game
-        const selVal = el('selectGame').value;
-        const results = loadResults();
-        const tab = sessionStorage.getItem('skf_tab') || 'today';
-        const dateKey = (tab==='today') ? new Date().toISOString().slice(0,10) : (()=>{const d=new Date();d.setDate(d.getDate()-1);return d.toISOString().slice(0,10)})();
-        el('todayResult').value = (results[dateKey] && results[dateKey][selVal]) ? results[dateKey][selVal] : '';
-        const y = new Date(); y.setDate(y.getDate()-1); const yk = y.toISOString().slice(0,10);
-        el('yesterdayResult').value = (results[yk] && results[yk][selVal]) ? results[yk][selVal] : '';
-      });
-
-      // save results button
-      el('saveResultBtn').addEventListener('click', ()=>{
-        const gId = el('selectGame').value;
-        const tval = el('todayResult').value.trim();
-        const kval = el('yesterdayResult').value.trim();
-        const tab = sessionStorage.getItem('skf_tab') || 'today';
-        const results = loadResults();
-        const todayKeyS = new Date().toISOString().slice(0,10);
-        const yesterday = new Date(); yesterday.setDate(yesterday.getDate()-1); const yKeyS = yesterday.toISOString().slice(0,10);
-        if(tval){
-          if(!results[todayKeyS]) results[todayKeyS] = {};
-          results[todayKeyS][gId] = tval;
-        }
-        if(kval){
-          if(!results[yKeyS]) results[yKeyS] = {};
-          results[yKeyS][gId] = kval;
-        }
-        saveResults(results);
-        const currentTab = sessionStorage.getItem('skf_tab') || 'today';
-        setActiveTab(currentTab);
-        alert((lang==='hi' ? 'Save ho gaya' : 'Saved'));
-      });
-
-      // add game
-      el('addGameBtn').addEventListener('click', ()=>{
-        const name = el('newGameName').value.trim();
-        const time = el('newGameTime').value.trim();
-        const chart = el('newChartLink').value.trim() || '#';
-        if(!name){ alert((lang==='hi'?'Naam likho':'Enter name')); return; }
-        const games = loadGames();
-        const id = name.toLowerCase().replace(/\s+/g,'_').replace(/[^a-z0-9_]/g,'');
-        games.push({ id, name_en: name.toUpperCase(), name_hi: name.toUpperCase(), time, chart });
-        saveGames(games);
-        renderGames();
-        showAdminEditor();
-        alert((lang==='hi'?'Game add ho gaya':'Game added'));
-      });
-
-      // clear all (danger)
-      el('clearAllBtn').addEventListener('click', ()=>{
-        if(confirm((lang==='hi' ? 'Sab local data clear karna hai? (backup nahi milega)' : 'Clear all local data? (no backup)'))){
-          localStorage.removeItem('skf_games');
-          localStorage.removeItem('skf_results');
-          location.reload();
-        }
-      });
-
-      // populate brand text in chosen language
-      document.getElementById('brand').textContent = (lang==='hi' ? 'SattaKingFast टेम्पलेट' : 'SattaKingFast Template');
-
+    sortedGames.forEach(game => {
+      const div = document.createElement('div');
+      div.className = 'game-card';
+      div.innerHTML = `
+        <div class="game-title">${game.name_en} / ${game.name_hi}</div>
+        <div class="game-time">${game.time}</div>
+      `;
+      container.appendChild(div);
     });
+</script>
 
-    // small helper: when admin logs in, pressing Enter on password triggers login
-    el('adminPass').addEventListener('keyup', (e)=>{ if(e.key==='Enter') el('adminLoginBtn').click(); });
-
-  </script>
 </body>
 </html>
