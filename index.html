@@ -1,327 +1,362 @@
 <!doctype html>
 <html lang="hi">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Fast Update — Jai Shree Shyam</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Fast Update — Jai Shree Shyam (Demo UI)</title>
+  <style>
+    :root{
+      --bg:#0c1624;
+      --card:#111a2d;
+      --muted:#a8b6d1;
+      --accent:#1565c0;
+      --green:#33ff8a;
+      --red:#ff6b6b;
+      --today-border:#4fc3f7;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Inter, Arial, sans-serif;
+      background:linear-gradient(180deg,#071029,#0c1624);
+      color:#eaf2ff;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+    .wrap{max-width:1150px;margin:18px auto;padding:18px}
+    header{
+      background:var(--card);
+      padding:16px;border-radius:12px;margin-bottom:16px;
+      box-shadow:0 8px 30px rgba(2,6,23,0.6);
+    }
+    header .row{display:flex;align-items:center;gap:12px;justify-content:space-between}
+    .brand{font-size:20px;font-weight:700}
+    .blink{color:var(--today-border);font-weight:700;animation:blink 1.2s infinite}
+    @keyframes blink{0%{opacity:1}50%{opacity:.35}100%{opacity:1}}
+    .top-tags{display:flex;gap:8px;align-items:center}
+    .tag{background:rgba(255,255,255,0.03);padding:6px 10px;border-radius:8px;font-weight:600;color:var(--muted)}
+    .lang-btn{background:var(--accent);border:none;color:white;padding:7px 10px;border-radius:8px;cursor:pointer}
+    a.whatsapp{background:#25D366;color:#062016;padding:8px 10px;border-radius:8px;text-decoration:none;font-weight:700}
 
-<style>
-body{
-  margin:0;
-  font-family:Arial, sans-serif;
-  background:#0c1624;
-  color:#e8ecf5;
-}
+    /* layout */
+    .grid{display:grid;grid-template-columns:1fr 380px;gap:16px}
+    @media(max-width:980px){.grid{grid-template-columns:1fr}}
+    .card{background:var(--card);padding:12px;border-radius:12px;box-shadow:0 6px 20px rgba(2,6,23,0.5)}
 
-/* Container */
-.container{
-  max-width:1100px;
-  margin:auto;
-  padding:15px;
-}
+    /* daily box */
+    .daily-row{display:flex;justify-content:space-between;align-items:center;padding:10px;border-radius:8px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));margin-bottom:8px}
+    .small{font-size:13px;color:var(--muted)}
 
-/* Header */
-header{
-  background:#111a2d;
-  padding:15px;
-  border-radius:14px;
-  margin-bottom:20px;
-  box-shadow:0 0 15px rgba(0,0,0,0.5);
-}
-.blink{
-  animation:blink 1s infinite;
-  color:#4fc3f7;
-  font-weight:bold;
-}
-@keyframes blink{
-  0%{opacity:1;}
-  50%{opacity:0.4;}
-  100%{opacity:1;}
-}
+    /* game card list */
+    .games-list{display:flex;flex-direction:column;gap:8px;max-height:56vh;overflow:auto;padding-right:6px}
+    .game-card{display:flex;justify-content:space-between;align-items:center;padding:10px;border-radius:8px;background:rgba(255,255,255,0.02)}
+    .game-info b{font-size:15px}
+    .pill{padding:6px 8px;border-radius:6px;background:rgba(255,255,255,0.03);font-weight:700}
 
-.top-buttons div{
-  display:inline-block;
-  background:#20345c;
-  padding:8px 12px;
-  margin-right:6px;
-  border-radius:6px;
-}
+    /* monthly table */
+    table{border-collapse:collapse;width:100%;margin-top:8px}
+    th,td{padding:10px;border:1px solid rgba(255,255,255,0.04);text-align:center;font-size:14px}
+    th{background:rgba(255,255,255,0.02);font-weight:700}
+    tr:nth-child(odd){background:rgba(255,255,255,0.01)}
+    .today-row{background:linear-gradient(90deg, rgba(79,195,247,0.06), rgba(79,195,247,0.02));border-left:4px solid var(--today-border);animation:slight 1.2s infinite}
+    @keyframes slight{0%{transform:translateY(0)}50%{transform:translateY(-2px)}100%{transform:translateY(0)}}
 
-.lang-btn{
-  background:#1565c0;
-  color:white;
-  padding:6px 10px;
-  border-radius:6px;
-  border:none;
-  float:right;
-  cursor:pointer;
-}
+    /* calendar boxes */
+    .calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:10px;margin-top:12px}
+    .cal-day{background:rgba(255,255,255,0.02);padding:10px;border-radius:10px;text-align:center;min-height:86px;display:flex;flex-direction:column;justify-content:space-between;transition:transform .18s,background .18s}
+    .cal-day:hover{transform:translateY(-6px);background:rgba(255,255,255,0.04)}
+    .cal-day .dnum{font-weight:700;font-size:18px}
+    .cal-day .gname{font-size:13px;margin-top:6px}
+    .cal-day .vals{font-size:13px;margin-top:6px}
+    .cal-day.today{border:2px solid var(--today-border);box-shadow:0 0 12px rgba(79,195,247,0.14);animation:blink 1.2s infinite}
 
-/* Category Sections */
-.section-title{
-  font-size:20px;
-  font-weight:bold;
-  margin:10px 0;
-}
+    /* colors for open/close */
+    .val-open{color:var(--green);font-weight:700}
+    .val-close{color:var(--red);font-weight:700}
 
-.game-card{
-  background:#1b2b44;
-  padding:12px;
-  border-radius:10px;
-  margin-bottom:10px;
-  box-shadow:0 0 8px rgba(0,0,0,0.4);
-  transition:0.2s;
-}
-.game-card:hover{
-  background:#243a63;
-  transform:scale(1.03);
-}
+    /* categories area */
+    .cats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:10px}
+    @media(max-width:980px){.cats{grid-template-columns:1fr}}
+    .cat-box{padding:12px;border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005))}
+    .cat-title{font-weight:800;margin-bottom:8px}
 
-/* Daily Info */
-.daily-box{
-  background:#111a2d;
-  padding:15px;
-  border-radius:12px;
-  box-shadow:0 0 10px rgba(0,0,0,0.4);
-  margin-bottom:20px;
-}
-.daily-row{
-  background:#1b2b44;
-  padding:10px;
-  border-radius:8px;
-  margin-bottom:8px;
-  transition:0.2s;
-}
-.daily-row:hover{
-  background:#26406d;
-}
-
-/* Monthly Table */
-table{
-  width:100%;
-  border-collapse:collapse;
-  margin-top:10px;
-  margin-bottom:30px;
-  box-shadow:0 0 10px rgba(0,0,0,0.4);
-}
-th, td{
-  border:1px solid #223355;
-  padding:12px;
-  text-align:center;
-}
-th{
-  background:#253a63;
-  color:white;
-}
-tr:nth-child(odd){background:#16233f;}
-tr:nth-child(even){background:#1d2b4c;}
-.today-row{
-  background:#1d3b66 !important;
-  border:2px solid #4fc3f7;
-  animation:blink 1.2s infinite;
-}
-
-/* Calendar Boxes */
-.calendar-box{
-  background:#111a2d;
-  padding:15px;
-  border-radius:12px;
-  display:grid;
-  grid-template-columns:repeat(7,1fr);
-  gap:10px;
-  margin-bottom:30px;
-}
-.cal{
-  background:#1b2b44;
-  padding:15px;
-  border-radius:10px;
-  text-align:center;
-  transition:0.2s;
-}
-.cal:hover{
-  background:#26406d;
-  transform:scale(1.05);
-}
-.today{
-  border:2px solid #4fc3f7;
-  animation:blink 1.2s infinite;
-}
-</style>
+    /* footer note */
+    .note{font-size:13px;color:var(--muted);margin-top:10px}
+  </style>
 </head>
-
 <body>
+  <div class="wrap">
+    <header>
+      <div class="row">
+        <div style="display:flex;gap:12px;align-items:center">
+          <div class="brand">Jai Shree Shyam — Demo UI</div>
+          <div class="blink">LIVE FAST UPDATE</div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center">
+          <button class="lang-btn" onclick="toggleLang()">हिंदी / EN</button>
+          <a class="whatsapp" href="https://wa.me/9199181494" target="_blank">WhatsApp: 9999181494</a>
+        </div>
+      </div>
+      <div style="margin-top:10px" class="top-tags">
+        <div class="tag">3 baan dhari</div>
+        <div class="tag">Raja Bhai Khaiwal</div>
+        <div class="tag">Super Fast Board</div>
+      </div>
+    </header>
 
-<div class="container">
+    <div class="grid">
+      <!-- LEFT: main content -->
+      <main>
+        <!-- DAILY UPDATES -->
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+            <div><strong>Daily Updates</strong> <span class="small">(Auto Today / Yesterday)</span></div>
+            <div class="small" id="dt-when"></div>
+          </div>
+          <div id="dailyBox"></div>
+        </div>
 
-<header>
-  <h2 style="margin:0;">Jai Shree Shyam</h2>
-  <button class="lang-btn" onclick="toggleLang()">English / हिंदी</button>
+        <!-- GAMES LIST -->
+        <div class="card" style="margin-top:12px">
+          <strong>Games</strong>
+          <div class="games-list" id="gamesList"></div>
+        </div>
 
-  <p class="blink" style="font-size:18px;margin:8px 0;">LIVE FAST UPDATE</p>
+        <!-- Monthly Table -->
+        <div class="card" style="margin-top:12px">
+          <strong>Monthly Table (Date + Game + Open + Close)</strong>
+          <div id="monthTable"></div>
+        </div>
 
-  <div class="top-buttons">
-    <div>3 baan dhari</div>
-    <div>Raja Bhai Khaiwal</div>
-    <div>Super Fast Board</div>
+        <!-- Calendar Boxes -->
+        <div class="card" style="margin-top:12px">
+          <strong>Calendar View</strong>
+          <div class="calendar" id="calendar"></div>
+        </div>
+      </main>
+
+      <!-- RIGHT: categories -->
+      <aside>
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div><strong>Categories</strong></div>
+            <div class="small">Demo UI</div>
+          </div>
+
+          <div class="cats" style="margin-top:12px">
+            <div class="cat-box">
+              <div class="cat-title">⭐ Popular</div>
+              <div id="popularList"></div>
+            </div>
+
+            <div class="cat-box">
+              <div class="cat-title">☀️ Morning</div>
+              <div id="morningList"></div>
+            </div>
+
+            <div class="cat-box">
+              <div class="cat-title">🌙 Night</div>
+              <div id="nightList"></div>
+            </div>
+          </div>
+
+          <div class="note">
+            <p>Demo UI only — no gambling functionality. Replace placeholders as needed.</p>
+          </div>
+        </div>
+      </aside>
+    </div>
   </div>
 
-  <p style="margin-top:10px;">WhatsApp: 
-    <a style="color:#25D366;" href="https://wa.me/919999181494" target="_blank">
-      9999181494
-    </a>
-  </p>
-</header>
-
-<!-- DAILY UPDATE SECTION -->
-<h3 class="section-title">Daily Updates</h3>
-<div class="daily-box" id="dailyBox"></div>
-
-<!-- POPULAR -->
-<h3 class="section-title">⭐ Popular</h3>
-<div id="popularList"></div>
-
-<!-- MORNING -->
-<h3 class="section-title">☀️ Morning</h3>
-<div id="morningList"></div>
-
-<!-- NIGHT -->
-<h3 class="section-title">🌙 Night</h3>
-<div id="nightList"></div>
-
-<!-- MONTHLY TABLE -->
-<h3 class="section-title">📅 Monthly Table</h3>
-<div id="monthTable"></div>
-
-<!-- CALENDAR -->
-<h3 class="section-title">🗓 Calendar View</h3>
-<div class="calendar-box" id="calBox"></div>
-
-</div>
-
 <script>
-let hindi = false;
+/*
+  Final Demo UI Script
+  - Uses the 10 game names you confirmed
+  - Shows per-game demo open/close values
+  - Monthly table lists each date + a game (cycled) + open/close
+  - Calendar shows boxes for each date with the same assignment
+  - Hindi/English toggle switches names everywhere
+  - NO gambling logic — purely UI/demo placeholders
+*/
 
-// GAME DATA — (NO RESULTS, ONLY SAFE UI)
-let categories = {
-  popular: [
-    {en:"Gali", hi:"गली"},
-    {en:"Deesawer", hi:"दीसावर"},
-    {en:"Gaziyabad", hi:"गाज़ियाबाद"},
-    {en:"Faridabad", hi:"फरीदाबाद"},
-  ],
-  morning: [
-    {en:"Chhotu Taj", hi:"छोटू ताज"},
-    {en:"Delhi Bazar", hi:"दिल्ली बाज़ार"},
-    {en:"Shri Ganesh", hi:"श्री गणेश"},
-    {en:"Taj", hi:"ताज"},
-  ],
-  night: [
-    {en:"Gali", hi:"गली"},
-    {en:"Gaziyabad", hi:"गाज़ियाबाद"},
-    {en:"Delhi Day", hi:"दिल्ली डे"},
-    {en:"Faridabad", hi:"फरीदाबाद"},
-  ]
+// ----- game data (unique demo values per game) -----
+const games = [
+  {id:1, en:"Gali", hi:"गली", open:12, close:45, yopen:11, yclose:40},
+  {id:2, en:"Deesawer", hi:"दीसावर", open:22, close:74, yopen:21, yclose:70},
+  {id:3, en:"Gaziyabad", hi:"गाज़ियाबाद", open:34, close:77, yopen:30, yclose:66},
+  {id:4, en:"Faridabad", hi:"फरीदाबाद", open:11, close:18, yopen:10, yclose:15},
+  {id:5, en:"Taj", hi:"ताज", open:28, close:55, yopen:20, yclose:50},
+  {id:6, en:"Chhotu Taj", hi:"छोटू ताज", open:10, close:20, yopen:9, yclose:18},
+  {id:7, en:"Delhi Bazar", hi:"दिल्ली बाज़ार", open:14, close:60, yopen:12, yclose:58},
+  {id:8, en:"Shri Ganesh", hi:"श्री गणेश", open:17, close:66, yopen:15, yclose:62},
+  {id:9, en:"Delhi Day", hi:"दिल्ली डे", open:19, close:65, yopen:18, yclose:59},
+  {id:10, en:"Delhi 34", hi:"दिल्ली 34", open:8, close:56, yopen:7, yclose:52},
+];
+
+// categories as per "Same"
+const categories = {
+  popular: [1,2,3,4],     // indices of games array (ids)
+  morning: [6,7,8,5],     // Chhotu Taj, Delhi Bazar, Shri Ganesh, Taj
+  night: [1,3,9,4]        // Gali, Gaziyabad, Delhi Day, Faridabad
 };
 
+// state
+let hindiMode = false;
+const today = new Date();
+const yesterday = new Date(Date.now() - 86400000);
 
-// DAILY UPDATE — SAFE LEGAL TEXT
+// helper
+function byId(id){ return document.getElementById(id); }
+function fmtDate(d){ return d.toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}); }
+function getMonthDays(d){ return new Date(d.getFullYear(), d.getMonth()+1, 0).getDate(); }
+
+// ---- Populate daily updates (today + yesterday summary) ----
 function loadDaily(){
-  let box = document.getElementById("dailyBox");
-  box.innerHTML = "";
+  const box = byId('dailyBox');
+  box.innerHTML = '';
+  const tstr = fmtDate(today);
+  const ystr = fmtDate(yesterday);
+  byId('dt-when').innerText = 'Today: ' + tstr;
 
-  let today = new Date();
-  let todayStr = today.toLocaleDateString("en-IN", {day:"numeric", month:"short", year:"numeric"});
+  // Today header
+  const hToday = document.createElement('div');
+  hToday.className = 'daily-row';
+  hToday.innerHTML = `<div><strong>Today (${tstr})</strong></div><div class="small">Auto demo updates</div>`;
+  box.appendChild(hToday);
 
-  let msg = hindi ? 
-    "आज का अपडेट: सिस्टम मेंटेनेंस स्मूथ चल रहा है।" :
-    "Today's Update: System running smooth.";
-
-  box.innerHTML += `
-    <div class="daily-row blink">
-      <b>${todayStr}</b><br>
-      ${msg}
-    </div>
-  `;
-}
-loadDaily();
-
-
-// LOAD CATEGORY LISTS
-function loadCats(){
-  loadCategory("popularList", categories.popular);
-  loadCategory("morningList", categories.morning);
-  loadCategory("nightList", categories.night);
-}
-function loadCategory(id, list){
-  let box = document.getElementById(id);
-  box.innerHTML = "";
-
-  list.forEach(g=>{
-    box.innerHTML += `
-      <div class="game-card">
-        <b>${hindi?g.hi:g.en}</b>
+  // show each game's open/close for Today with animation on open values
+  games.forEach(g=>{
+    const row = document.createElement('div');
+    row.className = 'daily-row';
+    row.innerHTML = `
+      <div style="font-weight:700">${hindiMode?g.hi:g.en}</div>
+      <div>
+        <span class="pill val-open">Open: ${g.open}</span>
+        <span style="margin-left:8px" class="pill val-close">Close: ${g.close}</span>
       </div>
     `;
+    box.appendChild(row);
+  });
+
+  // Yesterday header
+  const hY = document.createElement('div');
+  hY.style.marginTop = '10px';
+  hY.className = 'daily-row';
+  hY.innerHTML = `<div><strong>Yesterday (${ystr})</strong></div><div class="small">Demo values</div>`;
+  box.appendChild(hY);
+
+  games.forEach(g=>{
+    const row = document.createElement('div');
+    row.className = 'daily-row';
+    row.innerHTML = `
+      <div>${hindiMode?g.hi:g.en}</div>
+      <div>
+        <span class="pill val-open">Open: ${g.yopen}</span>
+        <span style="margin-left:8px" class="pill val-close">Close: ${g.yclose}</span>
+      </div>
+    `;
+    box.appendChild(row);
   });
 }
-loadCats();
 
-
-// MONTHLY TABLE
-function loadMonth(){
-  let tbl = document.getElementById("monthTable");
-  let today = new Date();
-  let dcount = new Date(today.getFullYear(), today.getMonth()+1, 0).getDate();
-
-  let html = `
-    <table>
-      <tr><th>Date</th><th>Note</th></tr>
-  `;
-
-  for(let d=1; d<=dcount; d++){
-    let cls = (d === today.getDate()) ? "today-row" : "";
-    html += `
-      <tr class="${cls}">
-        <td>${d}</td>
-        <td>Info</td>
-      </tr>
-    `;
-  }
-
-  html += "</table>";
-  tbl.innerHTML = html;
-}
-loadMonth();
-
-
-// CALENDAR BOXES
-function loadCalendar(){
-  let box = document.getElementById("calBox");
-  let today = new Date();
-  let dcount = new Date(today.getFullYear(), today.getMonth()+1, 0).getDate();
-
-  box.innerHTML = "";
-
-  for(let d=1; d<=dcount; d++){
-    let cls = (d === today.getDate()) ? "cal today" : "cal";
-    box.innerHTML += `
-      <div class="${cls}">
-        <b>${d}</b><br>
-        Note
+// ---- Games list (simple list with open/close) ----
+function loadGamesList(){
+  const box = byId('gamesList');
+  box.innerHTML = '';
+  games.forEach(g=>{
+    const el = document.createElement('div');
+    el.className = 'game-card';
+    el.innerHTML = `
+      <div class="game-info">
+        <b>${hindiMode?g.hi:g.en}</b><div class="small">Demo card</div>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <div class="pill val-open">Open: ${g.open}</div>
+        <div class="pill val-close">Close: ${g.close}</div>
       </div>
     `;
+    box.appendChild(el);
+  });
+}
+
+// ---- Categories (popular/morning/night) ----
+function loadCategories(){
+  function fill(id, arr){
+    const box = byId(id);
+    box.innerHTML = '';
+    arr.forEach(gameId => {
+      const g = games.find(x=>x.id === gameId);
+      const item = document.createElement('div');
+      item.className = 'game-card';
+      item.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <b>${hindiMode?g.hi:g.en}</b><div class="small">Demo</div>
+        </div>
+        <div style="text-align:right">
+          <div class="val-open">O: ${g.open}</div>
+          <div class="val-close">C: ${g.close}</div>
+        </div>
+      </div>`;
+      box.appendChild(item);
+    });
+  }
+  fill('popularList', categories.popular);
+  fill('morningList', categories.morning);
+  fill('nightList', categories.night);
+}
+
+// ---- Monthly table (each day assigned a game via cycle) ----
+function loadMonthlyTable(){
+  const container = byId('monthTable');
+  const days = getMonthDays(today);
+  let html = '<table><tr><th>Date</th><th>Game</th><th>Open</th><th>Close</th></tr>';
+  for(let d=1; d<=days; d++){
+    const g = games[(d-1) % games.length];
+    const isToday = d === today.getDate();
+    const rowClass = isToday ? 'today-row' : '';
+    html += `<tr class="${rowClass}">
+      <td>${d}/${today.getMonth()+1}</td>
+      <td>${hindiMode?g.hi:g.en}</td>
+      <td class="val-open"> ${g.open} </td>
+      <td class="val-close"> ${g.close} </td>
+    </tr>`;
+  }
+  html += '</table>';
+  container.innerHTML = html;
+}
+
+// ---- Calendar boxes (same assignment) ----
+function loadCalendar(){
+  const cal = byId('calendar');
+  cal.innerHTML = '';
+  const days = getMonthDays(today);
+  for(let d=1; d<=days; d++){
+    const g = games[(d-1) % games.length];
+    const div = document.createElement('div');
+    div.className = 'cal-day' + (d===today.getDate()? ' today':'');
+    div.innerHTML = `<div class="dnum">${d}</div>
+      <div class="gname">${hindiMode?g.hi:g.en}</div>
+      <div class="vals"><span class="val-open">O:${g.open}</span> <span style="margin-left:6px" class="val-close">C:${g.close}</span></div>`;
+    cal.appendChild(div);
   }
 }
-loadCalendar();
 
-
-// LANGUAGE TOGGLE
+// ---- Language toggle ----
 function toggleLang(){
-  hindi = !hindi;
-  loadDaily();
-  loadCats();
+  hindiMode = !hindiMode;
+  renderAll();
 }
-</script>
+function renderAll(){
+  loadDaily();
+  loadGamesList();
+  loadCategories();
+  loadMonthlyTable();
+  loadCalendar();
+}
 
+// initial render
+renderAll();
+
+</script>
 </body>
 </html>
